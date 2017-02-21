@@ -1,7 +1,7 @@
 # UseBike
 
 
-## NVM
+## nvm (instalar versao do node)
 
 ```
 nvm install 4.6.2
@@ -15,16 +15,18 @@ nvm use 4.6.2
 ```
 
 
-## Instalar as dependencias
+## Dependencias
 
-No diretorio do projeto executar:
+### Instalar dependencias do npm
 
 ```
 npm install
 ```
 
-Pra nao precisar instalar pacotes globalmente, as versoes locais dos executaveis
-podem ser executadas do diretorio local:
+### Instalar dependencias do bower
+
+Pra nao precisar instalar pacotes do node globalmente, as versoes locais
+podem ser executadas do diretorio:
 
 ```
 ./node_modules/.bin/bower install
