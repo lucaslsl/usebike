@@ -31,16 +31,45 @@ module.exports.policies = {
   * and its actions                                                          *
   *                                                                          *
   ***************************************************************************/
-  // UserController: {
+  UserController: {
+
+    'me': ['isLoggedInREST'],
+    'find': ['isLoggedInREST', 'isAdminREST'],
+    'findOne': ['isLoggedInREST', 'isAdminREST'],
+    'create': ['isLoggedInREST', 'isAdminREST'],
+    'update': ['isLoggedInREST', 'isAdminREST'],
+    'destroy': ['isLoggedInREST', 'isAdminREST'],
+    'populate': ['isLoggedInREST', 'isAdminREST'],
+    'add': ['isLoggedInREST', 'isAdminREST'],
+    'remove': ['isLoggedInREST', 'isAdminREST'],
 
     // Require requests to come from a logged-in user for most actions
     // '*': 'isLoggedIn',
 
     // But we'll let anyone access the 'login' action
-    // 'login'  : true
+    // 'login'  : true,
+
+    // 'signup'  : true
 
     // And we'll only let admins delete users
     // 'destroy': 'isAdmin'
 
-  // }
+  },
+
+  MeController: {
+    details: ['isLoggedInREST'],
+    retrievePickups: ['isLoggedInREST'],
+    retrieveAccount: ['isLoggedInREST'],
+    retrieveUpdate: ['isLoggedInREST'],
+  },
+
+  LocationController: {
+    'create': ['isLoggedInREST', 'isAdminREST'],
+    'update': ['isLoggedInREST', 'isAdminREST'],
+    'destroy': ['isLoggedInREST', 'isAdminREST'],
+    'populate': ['isLoggedInREST', 'isAdminREST'],
+    'add': ['isLoggedInREST', 'isAdminREST'],
+    'remove': ['isLoggedInREST', 'isAdminREST'],
+  },
+  
 };
