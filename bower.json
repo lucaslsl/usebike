@@ -1,0 +1,49 @@
+{
+  "name": "rdash-angular",
+  "version": "0.0.1",
+  "description": "An AngularJS implementation of the responsive dashboard",
+  "homepage": "https://github.com/Ehesp/Responsive-Dashboard",
+  "authors": [
+    "Elliot Hesp <elliot.hesp@gmail.com>"
+  ],
+  "contributors": [
+    "Ricardo Pascua Jr <rdpascua@outlook.com>",
+    "Leonel Samayoa <leonel.e.samayoa@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "rdash-ui": "1.0.*",
+    "angular": "~1.5.0",
+    "angular-cookies": "~1.5.0",
+    "angular-bootstrap": "~1.0.3",
+    "angular-ui-router": "^0.2.15",
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.5.0",
+    "angular-toastr": "^1.7.0",
+    "lodash": "^4.13.1",
+    "jquery": "^3.0.0",
+    "moment": "2.10.6",
+    "angular-animate": "^1.5.7",
+    "angular-input-masks": "^2.3.0",
+    "valdr": "^1.1.5",
+    "angular-bootstrap-show-errors": "^2.3.0",
+    "angular-loading-bar": "^0.9.0",
+    "bluebird": "^3.4.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rdash/rdash-angular"
+  },
+  "resolutions": {
+    "jquery": "1.9.1 - 2",
+    "angular": "~1.5.0"
+  }
+}
