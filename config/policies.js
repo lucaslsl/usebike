@@ -33,7 +33,6 @@ module.exports.policies = {
   ***************************************************************************/
   UserController: {
 
-    'me': ['isLoggedInREST'],
     'find': ['isLoggedInREST', 'isAdminREST'],
     'findOne': ['isLoggedInREST', 'isAdminREST'],
     'create': ['isLoggedInREST', 'isAdminREST'],
@@ -60,6 +59,18 @@ module.exports.policies = {
     '*': ['isLoggedInREST'],
   },
 
+  AccountController: {
+    '*': ['isLoggedInREST', 'isAdminREST'],
+  },
+
+  BikeController: {
+    '*': ['isLoggedInREST', 'isAdminREST'],
+  },
+
+  DropoffController: {
+    '*': ['isLoggedInREST', 'isAdminREST'],
+  },
+
   LocationController: {
     'create': ['isLoggedInREST', 'isAdminREST'],
     'update': ['isLoggedInREST', 'isAdminREST'],
@@ -67,6 +78,14 @@ module.exports.policies = {
     'populate': ['isLoggedInREST', 'isAdminREST'],
     'add': ['isLoggedInREST', 'isAdminREST'],
     'remove': ['isLoggedInREST', 'isAdminREST'],
+  },
+
+  PickupController: {
+    '*': ['isLoggedInREST', 'isAdminREST'],
+  },
+
+  TransactionController: {
+    '*': ['isLoggedInREST', 'isAdminREST'],
   },
   
 };
