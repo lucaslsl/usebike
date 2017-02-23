@@ -28,9 +28,13 @@ module.exports = {
   }),
 
   retrieveAccountTransactions: wrap(function* (req, res) {
+    var limit = parseInt(req.query.limit || 30);
+    var skip = parseInt(req.query.skip || 0);
+
     var acc = yield Account.findOne({user: req.session.userId});
 
-    var transactions = yield Transaction.find({ account: acc.id }).populate('pickup');
+    var transactions = yield Transaction.find({ account: acc.id })
+      .populate('pickup').limit(limit).skip(skip);
 
     return res.status(200).json(transactions);
   }),
@@ -64,8 +68,12 @@ module.exports = {
 
   retrievePickups: wrap(function* (req, res) {
 
+    var limit = parseInt(req.query.limit || 30);
+    var skip = parseInt(req.query.skip || 0);
+
     // var pickups = yield Pickup.find({user: req.session.userId}).populate('dropoff').populate('location');
-    var pickups = yield Pickup.find({user: req.session.userId}).populate('location');
+    var pickups = yield Pickup.find({user: req.session.userId})
+      .populate('location').limit(limit).skip(skip);
 
     // var dropoffsIds = [];
 
