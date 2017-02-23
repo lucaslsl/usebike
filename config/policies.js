@@ -57,10 +57,7 @@ module.exports.policies = {
   },
 
   MeController: {
-    details: ['isLoggedInREST'],
-    retrievePickups: ['isLoggedInREST'],
-    retrieveAccount: ['isLoggedInREST'],
-    retrieveUpdate: ['isLoggedInREST'],
+    '*': ['isLoggedInREST'],
   },
 
   LocationController: {

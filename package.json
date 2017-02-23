@@ -23,6 +23,7 @@
     "gulp-watch": "^4.3.5",
     "gulp-wrap": "^0.11.0",
     "lodash": "3.10.1",
+    "moment": "^2.17.1",
     "nodemon": "^1.11.0",
     "sails": "^1.0.0-22",
     "sails-hook-grunt": "^1.0.4",
