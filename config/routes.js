@@ -24,20 +24,20 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  'get /me': 'MeController.details',
-  'get /me/account': 'MeController.retrieveAccount',
-  'patch /me/account': 'MeController.updateAccount',
-  'get /me/account/transactions': 'MeController.retrieveAccountTransactions',
-  'get /me/pickups': 'MeController.retrievePickups',
-  'get /me/pickups/:pickupId': 'MeController.retrievePickup',
-  'post /me/pickups': 'MeController.createPickup',
-  'post /me/dropoffs': 'MeController.createDropoff',
+  'get /api/me': 'MeController.details',
+  'get /api/me/account': 'MeController.retrieveAccount',
+  'patch /api/me/account': 'MeController.updateAccount',
+  'get /api/me/account/transactions': 'MeController.retrieveAccountTransactions',
+  'get /api/me/pickups': 'MeController.retrievePickups',
+  'get /api/me/pickups/:pickupId': 'MeController.retrievePickup',
+  'post /api/me/pickups': 'MeController.createPickup',
+  'post /api/me/dropoffs': 'MeController.createDropoff',
 
-  'get /user/available': 'UserController.available',
-  'post /user/signup': 'UserController.signup',
-  'post /user/createAdmin': 'UserController.createAdmin',
-  'put /user/login': 'UserController.login',
-  'put /user/logout': 'UserController.logout',
+  'get /api/user/available': 'UserController.available',
+  'post /api/user/signup': 'UserController.signup',
+  'post /api/user/createAdmin': 'UserController.createAdmin',
+  'put /api/user/login': 'UserController.login',
+  'put /api/user/logout': 'UserController.logout',
 
   'get /admin': 'AdminController.home'
 
