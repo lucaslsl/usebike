@@ -32,12 +32,13 @@ module.exports.routes = {
   'get /api/me/pickups/:pickupId': 'MeController.retrievePickup',
   'post /api/me/pickups': 'MeController.createPickup',
   'post /api/me/dropoffs': 'MeController.createDropoff',
+  'put /api/me/logout': 'MeController.logout',
 
   'get /api/user/available': 'UserController.available',
   'post /api/user/signup': 'UserController.signup',
   'post /api/user/createAdmin': 'UserController.createAdmin',
   'put /api/user/login': 'UserController.login',
-  'put /api/user/logout': 'UserController.logout',
+  
 
   'get /admin': 'AdminController.home'
 

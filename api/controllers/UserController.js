@@ -53,13 +53,6 @@ module.exports = {
 
   }),
 
-  logout: wrap(function* (req, res) {
-    req.session.destroy(function(err){
-      res.status(204).end();
-    });
-  }),
-
-
   createAdmin: wrap(function* (req, res) {
 
     var attrs = req.body;

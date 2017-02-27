@@ -202,5 +202,11 @@ module.exports = {
 
     return res.status(200).json(_.omit(user, 'password'));
   }),
+
+  logout: wrap(function* (req, res) {
+    req.session.destroy(function(err){
+      res.status(204).end();
+    });
+  }),
   
 }
