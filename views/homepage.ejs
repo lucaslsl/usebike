@@ -1,3 +1,4 @@
+        <title>UseBike - Home</title>
     <!-- START PRELOADER-->
     <div id="preloader-wrapper">
       <div id="loader">
@@ -338,10 +339,8 @@
 
                     <div class="form-group">
                       <label for="projectinput5">Ponto de Retirada</label>
-                      <select id="projectinput5" name="interested" class="form-control">
-                        <option value="none" selected="" disabled="">Ponto X</option>
-                        <option value="design">Ponto Y</option>
-                        <option value="development">Ponto Z</option>
+                      <select id="selectPonto" name="interested" class="form-control">
+
                       </select>
                     </div>
 
@@ -365,7 +364,7 @@
                       <label>Total</label>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input type="text" disabled class="form-control square" placeholder="amount" aria-label="Amount (to the nearest dollar)" name="amount">
+                        <input type="text" disabled class="form-control square" placeholder="total" aria-label="Amount (to the nearest dollar)" name="amount">
                         <span class="input-group-addon">.00</span>
                       </div>
                     </div>
@@ -396,28 +395,18 @@
 
 
     <footer style="margin-left:0px" class="footer footer-dark">
-      <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2017 <a href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank" class="text-bold-800 grey darken-2">PIXINVENT </a>, All rights reserved. </span><span class="float-md-right d-xs-block d-md-inline-block">Hand-crafted & Made with <i class="icon-heart5 pink"></i></span></p>
+      <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2017 <a href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank" class="text-bold-800 grey darken-2">USEBIKE </a>, All rights reserved. </span><span class="float-md-right d-xs-block d-md-inline-block">Hand-crafted & Made with <i class="icon-heart5 pink"></i></span></p>
     </footer>
-
+    <script src="/dependencies/jquery.js"></script>
   <script>
 
-    function initMap() {
-      var saoluis = {lat: -2.55, lng: -44.28};
-      var saoluis2 = {lat: -2.54, lng: -44.21};
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: saoluis
-      });
-
-      map.setOptions({draggable: false, zoomControl: false, scrollwheel: true, disableDoubleClickZoom: true});
-
-
+    function putLocationOnMap(location,map){
       var contentString = '<div id="content">'+
           '<div id="siteNotice">'+
           '</div>'+
-          '<h1 id="firstHeading" class="firstHeading">Ponto UseBike</h1>'+
+          '<h1 id="firstHeading" class="firstHeading">'+location.name+'</h1>'+
           '<div id="bodyContent">'+
-          '<p><b>Aluga ai porra</b></p>'+            
+          '<p><b>'+location.description+'</b></p>'+            
           '</div>'+
           '</div>';
 
@@ -426,32 +415,62 @@
       });
 
       var marker = new google.maps.Marker({
-        position: saoluis,
+        position: {lat: location.latitude, lng: location.longitude},
         map: map,
-        title: 'UseBike - Point'
+        title: location.name
       });
       marker.addListener('click', function() {
         infowindow.open(map, marker);
-      });
-
-      var marker2 = new google.maps.Marker({
-        position: saoluis2,
-        map: map,
-        title: 'UseBike - Point2'
-      });
-      marker2.addListener('click', function() {
-        infowindow.open(map, marker2);
-        console.log(this.title);
+        $('#selectPonto').val(this.title);
       });
 
     }
 
+    function getLocations(map){
+      var locations;
+      $.ajax({
+          url: "api/locations",
+          type: "get",
+          dateType: "json",
+          success: function (locations) {  
+              for(var location = 0; location < locations.length; location++){
+                $('#selectPonto').append($("<option></option>")
+                  .attr("value",locations[location].name)
+                  .text(locations[location].name)); 
+
+                putLocationOnMap(locations[location],map);
+              }
+
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+              alert(textStatus, errorThrown);
+          }
+       });    
+      }
+
+
+    function initMap() {
+      var saoluis = {lat: -2.55, lng: -44.28};
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: saoluis
+      });
+
+      map.setOptions({draggable: true, zoomControl: false, scrollwheel: true, disableDoubleClickZoom: true});
+
+      getLocations(map);
+
+    }
+
+
     Date.prototype.toDateInputValue = (function() {
-      var local = new Date(this);
-      local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-      return local.toJSON().slice(0,10);
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
     });
 
     $('#dataLocacao').val(new Date().toDateInputValue());
+
 
   </script>

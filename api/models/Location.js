@@ -4,6 +4,10 @@ module.exports = {
       type: 'string',
       required: true
     },
+    description: {
+      type: 'string',
+      required: true
+    },
     latitude: {
       type: 'number',
       columnType: 'DECIMAL(10,8)',
