@@ -297,7 +297,7 @@
                         <div class="col-xl-3 col-lg-6 col-md-12 clearfix">
                             <div class="float-xs-left pl-2">
                                 <span class="grey darken-1 block">Tempo médio de locação</span>
-                                <span class="font-large-3 line-height-1 text-bold-300">22.3</span>
+                                <span class="font-large-3 line-height-1 text-bold-300">2.3</span>
                             </div>
                             <div class="float-xs-left mt-2">
                                 <span class="grey darken-1 block">hh:mm</span>
@@ -379,7 +379,76 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-4">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title" id="basic-layout-square-controls">Locação</h4>
+              <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+              <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                  <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                  <li><a data-action="reload"><i class="icon-reload"></i></a></li>
+                  <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body collapse in">
+              <div class="card-block">
+
+                <form class="form">
+                  <div class="form-body">
+
+                    <div class="form-group">
+                      <label for="projectinput5">Ponto de Retirada</label>
+                      <select id="projectinput5" name="interested" class="form-control">
+                        <option value="none" selected="" disabled="">Ponto X</option>
+                        <option value="design">Ponto Y</option>
+                        <option value="development">Ponto Z</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="complaintinput3">Data da Locação</label>
+                      <input disabled type="date" id="dataLocacao" class="form-control round" name="complaintdate">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="timesheetinput5">Duração</label>
+                      <small>(hora:minuto - hh:mm)</small>
+                      <div class="position-relative has-icon-left">
+                        <input type="time" id="timesheetinput5" class="form-control" name="starttime">
+                        <div class="form-control-position">
+                          <i class="icon-clock5"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                     <div class="form-group">
+                      <label>Total</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text" disabled class="form-control square" placeholder="amount" aria-label="Amount (to the nearest dollar)" name="amount">
+                        <span class="input-group-addon">.00</span>
+                      </div>
+                    </div>
+
+                  <div class="form-actions right">
+                    <button type="button" class="btn btn-warning mr-1">
+                      <i class="icon-cross2"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      <i class="icon-check2"></i> Alugar
+                    </button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
 </div>
+  </div>
+
 </div>
 <!-- friends & weather charts -->
 
@@ -412,9 +481,6 @@
 </html>
 
   <script>
-
-    // This example displays a marker at the center of Australia.
-    // When the user clicks the marker, an info window opens.
 
     function initMap() {
       var saoluis = {lat: -2.55, lng: -44.28};
@@ -460,5 +526,13 @@
       });
 
     }
+
+    Date.prototype.toDateInputValue = (function() {
+      var local = new Date(this);
+      local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+      return local.toJSON().slice(0,10);
+    });
+
+    $('#dataLocacao').val(new Date().toDateInputValue());
 
   </script>
