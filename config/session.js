@@ -21,7 +21,9 @@ module.exports.session = {
   secret: '98af34119012a06d8b5a033f2d9a1f41',
 
   cookie: {
-    maxAge: 10 * 60 * 1000
-  }
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  },
+
+  adapter: 'connect-redis'
 
 };
