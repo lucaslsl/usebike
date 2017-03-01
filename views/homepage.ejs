@@ -1,66 +1,5 @@
-<html lang="en" data-textdirection="LTR" class="loading">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Robust admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, robust admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="PIXINVENT">
-    <title>UseBike</title>
-    <link rel="apple-touch-icon" sizes="60x60" href="robust-assets/ico/apple-icon-60.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="robust-assets/ico/apple-icon-76.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="robust-assets/ico/apple-icon-120.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="robust-assets/ico/apple-icon-152.png">
-    <link rel="shortcut icon" type="image/x-icon" href="robust-assets/ico/favicon.ico">
-    <link rel="shortcut icon" type="image/png" href="robust-assets/ico/favicon-32.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <!-- BEGIN VENDOR CSS-->
-    <link rel="stylesheet" href="robust-assets/css/vendors.min.css"/>
-    <!-- BEGIN VENDOR CSS-->
-    <!-- BEGIN Font icons-->
-    <link rel="stylesheet" type="text/css" href="robust-assets/fonts/icomoon.css">
-    <link rel="stylesheet" type="text/css" href="robust-assets/fonts/flag-icon-css/css/flag-icon.min.css">
-    <!-- END Font icons-->
-    <!-- BEGIN Plugins CSS-->
-    <link rel="stylesheet" type="text/css" href="robust-assets/css/plugins/sliders/slick/slick.css">
-    <!-- END Plugins CSS-->
-    
-    <!-- BEGIN Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="robust-assets/css/plugins/forms/icheck/icheck.css">
-    <link rel="stylesheet" type="text/css" href="robust-assets/css/plugins/forms/icheck/custom.css">
-    <link rel="stylesheet" type="text/css" href="robust-assets/css/plugins/extensions/unslider.css">
-    <!-- END Vendor CSS-->
-    <!-- BEGIN ROBUST CSS-->
-    <link rel="stylesheet" href="robust-assets/css/app.min.css"/>
-    <!-- END ROBUST CSS-->
-    <!-- BEGIN Page Level CSS-->
-    <link rel="stylesheet" type="text/css" href="robust-assets/css/components/weather-icons/climacons.min.css">
-    <!-- END Page Level CSS-->
-    <!-- BEGIN Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="assets-tema/css/style.css">
-    <!-- END Custom CSS-->
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-        width: 100%; 
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body data-open="click" data-menu="vertical-compact-menu" data-col="2-columns" class="vertical-layout vertical-compact-menu 2-columns  fixed-navbar">
+        <title>UseBike - Home</title>
     <!-- START PRELOADER-->
-
     <div id="preloader-wrapper">
       <div id="loader">
         <div class="chasing-dots loader-black">
@@ -297,7 +236,7 @@
                         <div class="col-xl-3 col-lg-6 col-md-12 clearfix">
                             <div class="float-xs-left pl-2">
                                 <span class="grey darken-1 block">Tempo médio de locação</span>
-                                <span class="font-large-3 line-height-1 text-bold-300">22.3</span>
+                                <span class="font-large-3 line-height-1 text-bold-300">2.3</span>
                             </div>
                             <div class="float-xs-left mt-2">
                                 <span class="grey darken-1 block">hh:mm</span>
@@ -379,7 +318,74 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-4">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title" id="basic-layout-square-controls">Locação</h4>
+              <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+              <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                  <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                  <li><a data-action="reload"><i class="icon-reload"></i></a></li>
+                  <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body collapse in">
+              <div class="card-block">
+
+                <form class="form">
+                  <div class="form-body">
+
+                    <div class="form-group">
+                      <label for="projectinput5">Ponto de Retirada</label>
+                      <select id="selectPonto" name="interested" class="form-control">
+
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="complaintinput3">Data da Locação</label>
+                      <input disabled type="date" id="dataLocacao" class="form-control round" name="complaintdate">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="timesheetinput5">Duração</label>
+                      <small>(hora:minuto - hh:mm)</small>
+                      <div class="position-relative has-icon-left">
+                        <input type="time" id="timesheetinput5" class="form-control" name="starttime">
+                        <div class="form-control-position">
+                          <i class="icon-clock5"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                     <div class="form-group">
+                      <label>Total</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text" disabled class="form-control square" placeholder="total" aria-label="Amount (to the nearest dollar)" name="amount">
+                        <span class="input-group-addon">.00</span>
+                      </div>
+                    </div>
+
+                  <div class="form-actions right">
+                    <button type="button" class="btn btn-warning mr-1">
+                      <i class="icon-cross2"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      <i class="icon-check2"></i> Alugar
+                    </button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
 </div>
+  </div>
+
 </div>
 <!-- friends & weather charts -->
 
@@ -389,50 +395,18 @@
 
 
     <footer style="margin-left:0px" class="footer footer-dark">
-      <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2017 <a href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank" class="text-bold-800 grey darken-2">PIXINVENT </a>, All rights reserved. </span><span class="float-md-right d-xs-block d-md-inline-block">Hand-crafted & Made with <i class="icon-heart5 pink"></i></span></p>
+      <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2017 <a href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank" class="text-bold-800 grey darken-2">USEBIKE </a>, All rights reserved. </span><span class="float-md-right d-xs-block d-md-inline-block">Hand-crafted & Made with <i class="icon-heart5 pink"></i></span></p>
     </footer>
-
-    <!-- BEGIN VENDOR JS-->
-    <script src="robust-assets/js/vendors.min.js"></script>
-    <!-- BEGIN VENDOR JS-->
-    <!-- BEGIN PAGE VENDOR JS-->
-    <script src="robust-assets/js/plugins/forms/icheck/icheck.min.js" type="text/javascript"></script>
-    <script src="robust-assets/js/plugins/extensions/jquery.knob.min.js" type="text/javascript"></script>
-    <script src="robust-assets/js/plugins/charts/raphael-min.js" type="text/javascript"></script>
-    <script src="robust-assets/js/plugins/extensions/unslider-min.js" type="text/javascript"></script>
-    <script src="robust-assets/js/plugins/charts/echarts/echarts.js" type="text/javascript"></script>
-    <!-- END PAGE VENDOR JS-->
-    <!-- BEGIN ROBUST JS-->
-    <script src="robust-assets/js/app.min.js"></script>
-    <!-- END ROBUST JS-->
-    <!-- BEGIN PAGE LEVEL JS-->
-    <script src="robust-assets/js/components/pages/dashboard-fitness.js" type="text/javascript"></script>
-    <!-- END PAGE LEVEL JS-->
-  </body>
-</html>
-
+    <script src="/dependencies/jquery.js"></script>
   <script>
 
-    // This example displays a marker at the center of Australia.
-    // When the user clicks the marker, an info window opens.
-
-    function initMap() {
-      var saoluis = {lat: -2.55, lng: -44.28};
-      var saoluis2 = {lat: -2.54, lng: -44.21};
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: saoluis
-      });
-
-      map.setOptions({draggable: false, zoomControl: false, scrollwheel: true, disableDoubleClickZoom: true});
-
-
+    function putLocationOnMap(location,map){
       var contentString = '<div id="content">'+
           '<div id="siteNotice">'+
           '</div>'+
-          '<h1 id="firstHeading" class="firstHeading">Ponto UseBike</h1>'+
+          '<h1 id="firstHeading" class="firstHeading">'+location.name+'</h1>'+
           '<div id="bodyContent">'+
-          '<p><b>Aluga ai porra</b></p>'+            
+          '<p><b>'+location.description+'</b></p>'+            
           '</div>'+
           '</div>';
 
@@ -441,24 +415,62 @@
       });
 
       var marker = new google.maps.Marker({
-        position: saoluis,
+        position: {lat: location.latitude, lng: location.longitude},
         map: map,
-        title: 'UseBike - Point'
+        title: location.name
       });
       marker.addListener('click', function() {
         infowindow.open(map, marker);
-      });
-
-      var marker2 = new google.maps.Marker({
-        position: saoluis2,
-        map: map,
-        title: 'UseBike - Point2'
-      });
-      marker2.addListener('click', function() {
-        infowindow.open(map, marker2);
-        console.log(this.title);
+        $('#selectPonto').val(this.title);
       });
 
     }
+
+    function getLocations(map){
+      var locations;
+      $.ajax({
+          url: "api/locations",
+          type: "get",
+          dateType: "json",
+          success: function (locations) {  
+              for(var location = 0; location < locations.length; location++){
+                $('#selectPonto').append($("<option></option>")
+                  .attr("value",locations[location].name)
+                  .text(locations[location].name)); 
+
+                putLocationOnMap(locations[location],map);
+              }
+
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+              alert(textStatus, errorThrown);
+          }
+       });    
+      }
+
+
+    function initMap() {
+      var saoluis = {lat: -2.55, lng: -44.28};
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: saoluis
+      });
+
+      map.setOptions({draggable: true, zoomControl: false, scrollwheel: true, disableDoubleClickZoom: true});
+
+      getLocations(map);
+
+    }
+
+
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
+    });
+
+    $('#dataLocacao').val(new Date().toDateInputValue());
+
 
   </script>
