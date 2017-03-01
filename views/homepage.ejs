@@ -353,7 +353,7 @@
                       <label for="timesheetinput5">Duração</label>
                       <small>(hora:minuto - hh:mm)</small>
                       <div class="position-relative has-icon-left">
-                        <input type="time" id="timesheetinput5" class="form-control" name="starttime">
+                        <input type="time" id="duracaoLocacao" class="form-control" name="starttime">
                         <div class="form-control-position">
                           <i class="icon-clock5"></i>
                         </div>
@@ -364,7 +364,7 @@
                       <label>Total</label>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input type="text" disabled class="form-control square" placeholder="total" aria-label="Amount (to the nearest dollar)" name="amount">
+                        <input id="precoLocacao" type="text" disabled class="form-control square" placeholder="total" aria-label="Amount (to the nearest dollar)" name="amount">
                         <span class="input-group-addon">.00</span>
                       </div>
                     </div>
@@ -373,7 +373,7 @@
                     <button type="button" class="btn btn-warning mr-1">
                       <i class="icon-cross2"></i> Cancelar
                     </button>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="button" id="btnAlugar" class="btn btn-primary">
                       <i class="icon-check2"></i> Alugar
                     </button>
                   </div>
@@ -398,6 +398,19 @@
       <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2017 <a href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank" class="text-bold-800 grey darken-2">USEBIKE </a>, All rights reserved. </span><span class="float-md-right d-xs-block d-md-inline-block">Hand-crafted & Made with <i class="icon-heart5 pink"></i></span></p>
     </footer>
     <script src="/dependencies/jquery.js"></script>
+    <!-- BEGIN SCRIPTS ROBUST THEME-->
+    <script src="robust-assets/js/vendors.min.js"></script>
+    <!-- BEGIN VENDOR JS-->
+    <!-- BEGIN PAGE VENDOR JS-->
+    <script src="robust-assets/js/plugins/forms/icheck/icheck.min.js" type="text/javascript"></script>
+    <script src="robust-assets/js/plugins/extensions/jquery.knob.min.js" type="text/javascript"></script>
+    <script src="robust-assets/js/plugins/charts/raphael-min.js" type="text/javascript"></script>
+    <script src="robust-assets/js/plugins/extensions/unslider-min.js" type="text/javascript"></script>
+    <script src="robust-assets/js/plugins/charts/echarts/echarts.js" type="text/javascript"></script>
+    <!-- END PAGE VENDOR JS-->
+    <!-- BEGIN ROBUST JS-->
+    <script src="robust-assets/js/app.min.js"></script>
+    <!-- END ROBUST JS-->
   <script>
 
     function putLocationOnMap(location,map){
@@ -420,8 +433,9 @@
         title: location.name
       });
       marker.addListener('click', function() {
-        infowindow.open(map, marker);
-        $('#selectPonto').val(this.title);
+        infowindow.open(map, marker);        
+        var opcao = $("#selectPonto").find("option:contains("+this.title+")");
+        $('#selectPonto').val(opcao[0].value);
       });
 
     }
@@ -435,7 +449,7 @@
           success: function (locations) {  
               for(var location = 0; location < locations.length; location++){
                 $('#selectPonto').append($("<option></option>")
-                  .attr("value",locations[location].name)
+                  .attr("value",locations[location].id)
                   .text(locations[location].name)); 
 
                 putLocationOnMap(locations[location],map);
@@ -471,6 +485,77 @@
     });
 
     $('#dataLocacao').val(new Date().toDateInputValue());
+
+    $( "#duracaoLocacao" ).change(function() {
+      var time = this.value;
+      var hora = time.split(':')[0];
+      var min = time.split(':')[1];
+      var minutos = (parseInt(hora)*60) + parseInt(min);
+      
+      var preco = parseInt(minutos) * 0.25;
+      $('#precoLocacao').val(preco);
+      if(isNaN(preco)){
+        $('#precoLocacao').val(0);
+      }
+      
+    });
+
+    function authenticate(){
+      data = [];
+      data.push({name: 'password',value: "123456"});
+      data.push({name: 'email', value: "vqz@mail.com"});      
+
+      $.ajax({
+        url: "api/user/login",
+        type: "put",
+        data: data,
+        dateType: "json",
+        success: function (response) {  
+          console.log(response);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+         alert(textStatus, errorThrown);
+        }
+       });
+    }
+
+    authenticate();
+
+    function alugarBike(){
+      var location = $('#selectPonto').val();
+      var time = $('#duracaoLocacao').val();
+      var hora = time.split(':')[0];
+      var min = time.split(':')[1];
+      var duration = (parseInt(hora)*60) + parseInt(min);
+
+      data = [];
+      data.push({name: 'location',value: location});
+      data.push({name: 'duration', value: duration});
+
+      $.ajax({
+        url: "api/me/pickups",
+        type: "post",
+        data: data,
+        dateType: "json",
+        success: function (response) {  
+          console.log(response);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+         var responseText = jQuery.parseJSON(jqXHR.responseText);
+         console.log(responseText.error);
+         if(responseText.error == 'unavailable_bikes'){
+             toastr.warning('Ops','Não há bikes disponíveis neste ponto!');
+             //alert('Não há bikes disponíveis neste ponto!');
+         }else{
+            alert('Ops. um erro interno ocorreu.');
+         }
+        }
+       });
+    }
+
+    $("#btnAlugar").on("click", function() {
+      alugarBike();
+    });
 
 
   </script>
