@@ -25,6 +25,10 @@ module.exports = {
 
     var newUser = yield User.create(attrs).meta({fetch: true});
 
+    yield Account.create({
+      user: newUser.id
+    });
+
     return res.status(201).json(_.omit(newUser, 'password'));
 
   }),

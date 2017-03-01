@@ -23,7 +23,7 @@ module.exports = {
     var acc = yield Account.findOne({user: req.session.userId});
     var accUpdated = yield Account.update(acc.id, attrs).meta({fetch: true});
 
-    return res.status(200).json(accUpdated);
+    return res.status(200).json(accUpdated[0]);
 
   }),
 
