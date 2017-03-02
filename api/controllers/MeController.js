@@ -47,20 +47,21 @@ module.exports = {
 
     var attrs = req.body;
 
-    var bikeAvailable = yield Bike.findOne({ currentLocation: attrs.location });
+    var bikeAvailables = yield Bike.find({ currentLocation: attrs.location });
+    var bike = bikeAvailables[0];
 
-    if(!bikeAvailable){
+    if(!bike){
       return res.status(400).json({ error: 'unavailable_bikes' });
     }
 
     var pickup = yield Pickup.create({
       user: req.session.userId,
       location: attrs.location,
-      bike: bikeAvailable.id,
+      bike: bike.id,
       duration: attrs.duration
     }).meta({ fetch: true });
 
-    yield Bike.update({ id: bikeAvailable.id }, { currentLocation: null });
+    yield Bike.update({ id: bike.id }, { currentLocation: null });
 
     return res.status(201).json(pickup);
 
