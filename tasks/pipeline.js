@@ -60,12 +60,27 @@
  //
  // Client-side javascript files to inject as <script> tags, in order.
  //
+
+
  var jsFilesToInject = [
 
    // Load `sails.io` before everything else.
    'dependencies/sails.io.js',
 
    'dependencies/jquery.js',
+   'dependencies/axios.js',
+   'dependencies/bluebird.core.js',
+   'dependencies/lodash.core.js',
+   'dependencies/bootstrap.js',
+   'dependencies/moment.min.js',
+   'dependencies/toastr.min.js',
+   'dependencies/robust-vendors.min.js',
+   'dependencies/icheck.min.js',
+   'dependencies/jquery.knob.min.js',
+   'dependencies/raphael-min.js',
+   'dependencies/unslider-min.js',
+   'dependencies/echarts.js',
+   'dependencies/robust-app.min.js',
 
    // Bring in `.js` files for any other client-side JavaScript dependencies.
    // (e.g. Lodash, jQuery, React, bootstrap.js, Ember, Angular, etc.)
