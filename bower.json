@@ -36,7 +36,8 @@
     "valdr": "^1.1.5",
     "angular-bootstrap-show-errors": "^2.3.0",
     "angular-loading-bar": "^0.9.0",
-    "bluebird": "^3.4.1"
+    "bluebird": "^3.4.1",
+    "angular-resource": "^1.5.7"
   },
   "repository": {
     "type": "git",

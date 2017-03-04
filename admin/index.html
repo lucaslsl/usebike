@@ -7,21 +7,36 @@
 	<title>UseBike</title>
   <!-- STYLES -->
   <!-- build:css lib/css/main.min.css -->
-  <link rel="stylesheet" type="text/css" href="components/bootstrap/dist/css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="components/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
+  <link rel="stylesheet" type="text/css" href="components/angular-toastr/dist/angular-toastr.min.css">
+  <link rel="stylesheet" type="text/css" href="components/angular-loading-bar/build/loading-bar.min.css">
   <!-- endbuild -->
   <!-- SCRIPTS -->
   <!-- build:js lib/js/main.min.js -->
+  <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="components/lodash/dist/lodash.min.js"></script>
+  <script type="text/javascript" src="components/bluebird/js/browser/bluebird.core.min.js"></script>
   <script type="text/javascript" src="components/angular/angular.min.js"></script>
+  <script type="text/javascript" src="components/angular-resource/angular-resource.min.js"></script>
   <script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
   <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
+   <script type="text/javascript" src="components/moment/min/moment.min.js"></script>
+   <script type="text/javascript" src="components/angular-animate/angular-animate.min.js"></script>
+   <script type="text/javascript" src="components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+   <script type="text/javascript" src="components/angular-loading-bar/build/loading-bar.min.js"></script>
+   <script type="text/javascript" src="components/valdr/valdr.min.js"></script>
+   <script type="text/javascript" src="components/angular-input-masks/angular-input-masks-standalone.min.js"></script>
+   <script type="text/javascript" src="components/valdr/valdr-message.min.js"></script>
   <!-- endbuild -->
   <!-- Custom Scripts -->
   <script type="text/javascript" src="js/dashboard.min.js"></script>
 </head>
 <!-- <body ng-controller="MasterCtrl"> -->
-<body ui-view="main">
-</body>
+<!-- <body ui-view="main">
+</body> -->
+<ui-view name="main">
+</ui-view>
 </html>

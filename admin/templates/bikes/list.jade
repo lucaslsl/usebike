@@ -1,0 +1,39 @@
+.row
+  .col-md-12
+    rd-widget
+      rd-widget-header(icon="fa-tasks",title="Lista de Bikes")
+        button.btn.btn-success.pull-right(ng-click="create()") Adicionar &nbsp;&nbsp;&nbsp;
+          i.fa.fa-plus
+      rd-widget-body(classes="{{!loadingBikes && bikes.length>0 ? 'no-padding' : ''}}")
+        rd-loading(ng-if="loadingBikes")
+        uib-alert(type="info", ng-if="!loadingBikes && bikes.length==0")
+          p.text-center Esta seção não possui items cadastrados.          
+        .table-responsive(ng-if="!loadingBikes && bikes.length>0")
+          table.table.table-bordered.table-striped
+            tbody
+              tr
+                th.text-center Nome
+                th.text-center Modelo
+                th.text-center Fabricante
+                th.text-center Criado em
+                th.text-center Atualizado em
+                th
+
+              tr(ng-repeat="bike in bikes")
+                td.text-center(style="width: 55%") {{bike.bin}}
+                td.text-center(style="width: 15%")
+                  span(ng-model="bike.created_at", br-date-mask)
+                td.text-center(style="width: 15%")
+                  span(ng-model="bike.updated_at", br-date-mask)
+                td.text-center(style="width: 15%")
+                  .btn-group
+                    button.btn.btn-primary(ng-click="edit(bike)")
+                     i.fa.fa-edit.fa-lg
+                    | &nbsp;
+                  .btn-group
+                    button.btn.btn-danger(ng-click="delete(bike)")
+                     i.fa.fa-remove.fa-lg
+
+      rd-widget-footer
+        uib-pagination.pagination-sm.pull-right(total-items="pagination.totalCount", ng-model="pagination.currentPage",ng-change="pageChanged()", first-text="Primeira", last-text="Última", next-text="Proxima", previous-text="Anterior", max-size="pagination.maxSize", items-per-page="pagination.perPage")
+        .clearfix
