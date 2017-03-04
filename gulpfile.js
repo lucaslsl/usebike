@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     minifyJs = require('gulp-uglify'),
     concat = require('gulp-concat'),
     less = require('gulp-less'),
+    jade = require('gulp-jade'),
     rename = require('gulp-rename'),
     minifyHTML = require('gulp-htmlmin');
 
@@ -14,7 +15,7 @@ var paths = {
     scripts: 'admin/js/**/*.*',
     styles: 'admin/less/**/*.*',
     images: 'admin/img/**/*.*',
-    templates: 'admin/templates/**/*.html',
+    templates: 'admin/templates/**/*.jade',
     index: 'admin/index.html',
     bower_fonts: 'admin/components/**/*.{ttf,woff,woff2,eof,svg}',
 };
@@ -68,9 +69,15 @@ gulp.task('custom-less', function() {
         .pipe(gulp.dest('.tmp/public/admin/css'));
 });
 
+// gulp.task('custom-templates', function() {
+//     return gulp.src(paths.templates)
+//         .pipe(minifyHTML())
+//         .pipe(gulp.dest('.tmp/public/admin/templates'));
+// });
+
 gulp.task('custom-templates', function() {
     return gulp.src(paths.templates)
-        .pipe(minifyHTML())
+        .pipe(jade())
         .pipe(gulp.dest('.tmp/public/admin/templates'));
 });
 

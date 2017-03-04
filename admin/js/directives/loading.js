@@ -4,7 +4,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('UseBike')
     .directive('rdLoading', rdLoading);
 
 function rdLoading() {

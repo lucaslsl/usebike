@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('UseBike')
     .directive('rdWidgetHeader', rdWidgetTitle);
 
 function rdWidgetTitle() {

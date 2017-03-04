@@ -3,44 +3,47 @@
 /**
  * Route configuration for the RDash module.
  */
-angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
-  function($stateProvider, $urlRouterProvider, $locationProvider) {
+angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
+  function($stateProvider, $urlRouterProvider) {
 
     // For unmatched routes
     $urlRouterProvider.otherwise('/');
 
     // Application routes
     $stateProvider
-      .state('home', {
-          url: '/',
-          views: {
-            'main': {
-              templateUrl: 'templates/main.html',
-              controller: 'MasterCtrl'
-            }
-          }
-      })
       .state('login', {
-          url: '/login',
-          views: {
-            'main': {
-              templateUrl: 'templates/login.html'
-            }
+        url: '/login',
+        views: {
+          'main': {
+            templateUrl: 'templates/login.html',
+            // controller: 'MasterCtrl'
           }
+        }
       })
-      .state('tables', {
-          url: '/tables',
-          views: {
-            'main': {
-              templateUrl: 'templates/main.html',
-              controller: 'MasterCtrl'
-            },
-            'content': {
-              templateUrl: 'templates/tables.html'
-            }
+      .state('base', {
+        url: '/',
+        views: {
+          'main': {
+            templateUrl: 'templates/base.html',
+            controller: 'MasterCtrl'
           }
+        }
+      })
+      .state('base.tables', {
+        url: 'tables',
+        views: {
+          'content': {
+            templateUrl: 'templates/tables.html'
+          }
+        }
+      })
+      .state('base.dashboard', {
+        url: 'dashboard',
+        views: {
+          'content': {
+            templateUrl: 'templates/dashboard.html'
+          }
+        }
       });
-
-    $locationProvider.html5Mode(true);
   }
 ]);
