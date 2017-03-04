@@ -17,6 +17,10 @@ module.exports = {
       type: 'number',
       columnType: 'DECIMAL(11,8)',
       required: true
+    },
+    bikes: {
+      collection: 'bike',
+      via: 'currentLocation'
     }
   }
 }
