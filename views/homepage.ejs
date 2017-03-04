@@ -16,6 +16,7 @@
           type: "get",
           dateType: "json",
           success: function (response) {  
+            $('#first_name').text(response.first_name);
           },
           error: function(jqXHR, textStatus, errorThrown) {
             erro = jqXHR.status;          
@@ -29,12 +30,23 @@
   initMap();
 
   function putLocationOnMap(location,map){
+      var qtdBikes = location.bikes.length;
+      var cor;
+      if(qtdBikes > 5){
+        cor = 'green';
+      }else if(qtdBikes < 5 && qtdBikes > 0){
+        cor = 'orange';
+      }else if(qtdBikes == 0){
+        cor = 'red';
+      }
+
       var contentString = '<div id="content">'+
           '<div id="siteNotice">'+
           '</div>'+
           '<h1 id="firstHeading" class="firstHeading">'+location.name+'</h1>'+
           '<div id="bodyContent">'+
-          '<p><b>'+location.description+'</b></p>'+            
+          '<p><b>'+location.description+'</b></p>'+
+          '<p style=color:'+cor+'>Quantidade de bikes disponíveis: <b>'+qtdBikes+'</b></p>'+                
           '</div>'+
           '</div>';
 
@@ -101,10 +113,15 @@
 
     $('#dataLocacao').val(new Date().toDateInputValue());
 
-    $( "#duracaoLocacao" ).change(function() {
-      var time = this.value;
-      var hora = time.split(':')[0];
-      var min = time.split(':')[1];
+    $( "#duracaoLocacaoHoras, #duracaoLocacaoMinutos" ).change(function() {
+      var hora = $('#duracaoLocacaoHoras').val();
+      var min = $('#duracaoLocacaoMinutos').val();
+      if(hora == ""){
+        hora = 0;
+      }
+      if(min == ""){
+        min = 0;
+      }
       var minutos = (parseInt(hora)*60) + parseInt(min);
       
       var preco = parseInt(minutos) * 0.25;
@@ -352,7 +369,7 @@
                   <li class="dropdown-menu-footer"><a href="javascript:void(0)" class="dropdown-item text-muted text-xs-center">Read all notifications</a></li>
                 </ul>
               </li>
-              <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online"><img src="robust-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span><span class="user-name">Felizão</span></a>
+              <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online"><img src="robust-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span><span id="first_name" class="user-name">Felizão</span></a>
                 <div class="dropdown-menu dropdown-menu-right"><a href="#" class="dropdown-item"><i class="icon-head"></i> Edit Profile</a><a href="#" class="dropdown-item"><i class="icon-mail6"></i> My Inbox</a><a href="#" class="dropdown-item"><i class="icon-clipboard2"></i> Task</a><a href="#" class="dropdown-item"><i class="icon-calendar5"></i> Calender</a>
                   <div class="dropdown-divider"></div><a id="logout" href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
                 </div>
@@ -368,7 +385,7 @@
 
 
     <div class="robust-content content container-fluid" style="margin-left:0px">
-      <div class="content-wrapper">
+      <div class="content-wrapper" style="padding: 0">
         <div class="content-header row">
         </div>
         <div class="content-body"><!--fitness stats-->
@@ -524,14 +541,43 @@
 
                     <div class="form-group">
                       <label for="timesheetinput5">Duração</label>
-                      <small>(hora:minuto - hh:mm)</small>
-                      <div class="position-relative has-icon-left">
-                        <input type="time" id="duracaoLocacao" class="form-control" name="starttime">
-                        <div class="form-control-position">
-                          <i class="icon-clock5"></i>
+                      <small>(hora:minuto)</small>
+                    </div>
+
+                    <div class="row">
+
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                      
+                      <div class="form-group">
+                        <label for="timesheetinput5">Horas</label>
+                        <div class="position-relative has-icon-left">
+                          <input type="number" max="24" id="duracaoLocacaoHoras" class="form-control" name="starthour">
+                          <div class="form-control-position">
+                            <i class="icon-clock5"></i>
+                          </div>
                         </div>
                       </div>
+
                     </div>
+                      
+
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                      
+                        <div class="form-group">
+                          <label for="timesheetinput5">Minutos</label>
+                          <div class="position-relative has-icon-left">
+                            <input type="number" max="60" id="duracaoLocacaoMinutos" class="form-control" name="startminutes">
+                            <div class="form-control-position">
+                              <i class="icon-clock5"></i>
+                            </div>
+                          </div>
+                        </div>
+                      
+                    </div>
+
+                      
+                    </div>
+
 
                      <div class="form-group">
                       <label>Total</label>
