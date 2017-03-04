@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('UseBike')
     .directive('rdWidgetFooter', rdWidgetFooter);
 
 function rdWidgetFooter() {

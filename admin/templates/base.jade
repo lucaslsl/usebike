@@ -1,0 +1,79 @@
+#page-wrapper(ng-class="{'open': toggle}", ng-cloak='')
+  // Sidebar
+  #sidebar-wrapper
+    ul.sidebar
+      li.sidebar-main
+        a(ng-click='toggleSidebar()')
+          | Dashboard
+          span.menu-icon.glyphicon.glyphicon-transfer
+      li.sidebar-title
+        span NAVIGATION
+      li.sidebar-list
+        a(ui-sref='login')
+          | Login 
+          span.menu-icon.fa.fa-user
+      li.sidebar-list
+        a(ui-sref='base.dashboard')
+          | Dashboard 
+          span.menu-icon.fa.fa-tachometer
+      li.sidebar-list
+        a(ui-sref='base.tables')
+          | Tables 
+          span.menu-icon.fa.fa-table
+    .sidebar-footer
+      .col-xs-4
+        a(href='https://github.com/rdash/rdash-angular', target='_blank')
+          | Github
+      .col-xs-4
+        a(href='https://github.com/rdash/rdash-angular/blob/master/README.md', target='_blank')
+          | About
+      .col-xs-4
+        a(href='#')
+          | Support
+  // End Sidebar
+  #content-wrapper
+    .page-content
+      // Header Bar
+      .row.header
+        .col-xs-12
+          .user.pull-right
+            .item.dropdown(uib-dropdown='')
+              a.dropdown-toggle(href='#', uib-dropdown-toggle='')
+                img(src='img/avatar.jpg')
+              ul.dropdown-menu.dropdown-menu-right
+                li.dropdown-header
+                  | Joe Bloggs
+                li.divider
+                li.link
+                  a(href='#')
+                    | Profile
+                li.link
+                  a(href='#')
+                    | Menu Item
+                li.link
+                  a(href='#')
+                    | Menu Item
+                li.divider
+                li.link
+                  a(href='#')
+                    | Logout
+            .item.dropdown(uib-dropdown='')
+              a.dropdown-toggle(href='#', uib-dropdown-toggle='')
+                i.fa.fa-bell-o
+              ul.dropdown-menu.dropdown-menu-right
+                li.dropdown-header
+                  | Notifications
+                li.divider
+                li
+                  a(href='#') Server Down!
+          .meta
+            .page
+              | Dashboard
+            .breadcrumb-links
+              | Home / Dashboard
+      // End Header Bar
+      // Main Content
+      div(ui-view='content')
+    // End Page Content
+  // End Content Wrapper
+// End Page Wrapper
