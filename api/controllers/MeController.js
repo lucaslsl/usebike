@@ -72,31 +72,30 @@ module.exports = {
     var limit = parseInt(req.query.limit || 30);
     var skip = parseInt(req.query.skip || 0);
 
-    // var pickups = yield Pickup.find({user: req.session.userId}).populate('dropoff').populate('location');
     var pickups = yield Pickup.find({user: req.session.userId})
-      .populate('location').limit(limit).skip(skip);
+    .populate('dropoff').populate('location').limit(limit).skip(skip);
 
-    // var dropoffsIds = [];
+    var dropoffsIds = [];
 
-    // pickups = _.map(pickups, (p)=>{
-    //   p.dropoff = p.dropoff[0] || null;
-    //   if(p.dropoff){
-    //     dropoffsIds.push(p.dropoff.id);
-    //   }
-    //   return p;
-    // });
+    pickups = _.map(pickups, (p)=>{
+      p.dropoff = p.dropoff[0] || null;
+      if(p.dropoff){
+        dropoffsIds.push(p.dropoff.id);
+      }
+      return p;
+    });
 
-    // // Populate location of dropoff of all pickups
-    // if(dropoffsIds.length>0){
-    //   var dropoffs = yield Dropoff.find({id: dropoffsIds }).populate('location');
-    //   pickups = _.map(pickups, p=>{
-    //     var drop = _.find(dropoffs, d=>{
-    //       return d.pickup==p.id;
-    //     });
-    //     p.dropoff = drop || null;
-    //     return p;
-    //   });
-    // }
+    // Populate location of dropoff of all pickups
+    if(dropoffsIds.length>0){
+      var dropoffs = yield Dropoff.find({id: dropoffsIds }).populate('location');
+      pickups = _.map(pickups, p=>{
+        var drop = _.find(dropoffs, d=>{
+          return d.pickup==p.id;
+        });
+        p.dropoff = drop || null;
+        return p;
+      });
+    }
 
     return res.status(200).json(pickups);
 
