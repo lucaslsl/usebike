@@ -5,10 +5,15 @@
     <script src="/dependencies/unslider-min.js"></script>
     <script src="/dependencies/echarts.js"></script>
     <script src="/dependencies/robust-app.min.js"></script>
+    <script src="/dependencies/sweetalert.min.js"></script>
 <script type="text/javascript">
   $(function(){
 
     isLogged();
+
+    $("#btnCancelar").on("click", function() {
+      swal("Good job!", "You clicked the button!", "success");
+    });
 
     function isLogged(){
       $.ajax({
@@ -155,6 +160,21 @@
         dateType: "json",
         success: function (response) {  
           console.log(response);
+          swal({   
+            title: "Aluguel concluído com sucesso!",   
+            text: "Deseja visualizar a locação em seu perfil?",   
+            type: "success",   
+            showCancelButton: true,   
+            confirmButtonColor: "#37BC9B",   
+            confirmButtonText: "Sim, visualizar aluguel!",   
+            cancelButtonText: "Não",   
+            closeOnConfirm: true,   
+            closeOnCancel: true }, 
+            function(isConfirm){   
+              if (isConfirm) {     
+                window.location.replace("/pickups");   
+              }
+             });
         },
         error: function(jqXHR, textStatus, errorThrown) {
          var responseText = jQuery.parseJSON(jqXHR.responseText);
@@ -602,7 +622,7 @@
                     </div>
 
                   <div class="form-actions right">
-                    <button type="button" class="btn btn-warning mr-1">
+                    <button id="btnCancelar" type="button" class="btn btn-warning mr-1">
                       <i class="icon-cross2"></i> Cancelar
                     </button>
                     <button type="button" id="btnAlugar" class="btn btn-primary">
