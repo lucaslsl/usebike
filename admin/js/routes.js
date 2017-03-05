@@ -16,7 +16,7 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
         views: {
           'main': {
             templateUrl: 'templates/login.html',
-            // controller: 'MasterCtrl'
+            controller: 'LoginCtrl'
           }
         }
       })
@@ -26,6 +26,15 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
           'main': {
             templateUrl: 'templates/base.html',
             controller: 'MasterCtrl'
+          }
+        }
+      })
+      .state('base.bikes', {
+        url: 'bikes',
+        views: {
+          'content': {
+            templateUrl: 'templates/bikes/list.html',
+            controller: 'BikeListCtrl'
           }
         }
       })
@@ -46,4 +55,28 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
         }
       });
   }
-]);
+]).run(['$http', '$rootScope', '$state', function($http, $rootScope, $state){
+    // delete $http.defaults.headers['get'];
+    // $http.defaults.headers.get = {'Content-Type': 'application/json'};
+    // $http.defaults.headers.patch = {'Content-Type': 'application/json'};
+    // $http.defaults.headers.put = {'Content-Type': 'application/json'};
+    // $http.defaults.headers.delete = {'Content-Type': 'application/json'};
+    // $http.defaults.headers.post = {'Content-Type': 'application/json'};
+
+    $rootScope.$on('$stateChangeStart', function(event, next, current, toState, toParams, fromState, fromParams){
+      if($rootScope.user===undefined || $rootScope.user.id=== undefined){
+        $http({
+          method: 'GET',
+          data: '',
+          url:'/api/me'
+        })
+        .then(function(response){
+          $rootScope.user = response.data;
+        })
+        .catch(function(response){
+          $state.go('login');
+        });
+      }
+    });
+
+}]);

@@ -52,7 +52,10 @@ module.exports.routes = {
   'put /api/user/login': 'UserController.login',
   
 
-  'get /admin': 'AdminController.home'
+  'get /admin': 'AdminController.home',
+
+  'get /api/locations/count': 'LocationController.count',
+  'get /api/bikes/count': 'BikeController.count',
 
 
   
