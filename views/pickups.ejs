@@ -21,6 +21,10 @@
     background-color: #3D818A;
     color: #FFF;
 }
+.aluguelEmCurso{
+  border-bottom: 1px solid #E0E0E0;
+  padding: 1em;
+}
 </style>
 
 <script type="text/javascript">
@@ -72,13 +76,23 @@ $( document ).ready(function() {
           dateType: "json",
           success: function (pickups) {  
            for(var pickup = 0; pickup < pickups.length; pickup++){
-                console.log(pickups[pickup]);
                 var unixTime = pickups[pickup].createdAt;
                 var horarioAluguel = new Date(unixTime);
                 var duracao = pickups[pickup].duration;
                 var retiradaEm = pickups[pickup].location.name;
+                var devolvidaEm = "";
+                var status = "Aguardando Devolução";
+                var tagStatus = "warning";
                 var linhaAluguel = "";
                 var aluguel = "";
+                var alugueisEmCurso = "";
+                var itemAluguelEmCurso = "";
+
+                if(pickups[pickup].dropoff != null){
+                  status = "Ok"
+                  tagStatus = "success";
+                  devolvidaEm = pickups[pickup].dropoff.location.name;
+                }
 
                 moment.locale('br');  
                 var emCurso = moment(horarioAluguel).fromNow();
@@ -95,11 +109,33 @@ $( document ).ready(function() {
 
                 aluguel =   '<td class="text-truncate">'+horarioAluguel+'</td>'+
                                 '<td class="text-truncate">'+duracao+' minutos</td>'+
-                                '<td class="text-truncate"><span class="tag tag-default tag-warning">'+retiradaEm+'</span></td>'+
-                                '<td class="text-truncate"><span class="tag tag-default tag-success">Ok</span></td>'+
+                                '<td class="text-truncate"><span class="tag tag-default tag-primary">'+retiradaEm+'</span></td>'+
+                                '<td class="text-truncate"><span class="tag tag-default tag-success">'+devolvidaEm+'</span></td>'+
+                                '<td class="text-truncate"><span class="tag tag-default tag-'+tagStatus+'">'+status+'</span></td>'+
                             '</tr>';
 
                 $('#tableHistorico').append(linhaAluguel+aluguel);
+
+
+               if(pickups[pickup].dropoff == null){
+
+               itemAluguelEmCurso = '<a href="#" class="">'+
+                        '<div class="media-left">'+
+                        '</div>'; 
+
+               alugueisEmCurso = 
+                    '<div class="media-body aluguelEmCurso">'+
+                            '<h5 class="list-group-item-heading" style="font-size:0.9em">Bike alugada em: '+pickups[pickup].location.name+' '+
+                            '<br><small>as: '+horarioAluguel+'</small>'+
+                            '<button type="button" data-pickup="'+pickups[pickup].id+'" data-location="'+pickups[pickup].location.id+'" class="btn btn-success pull-right btnDropoff">Devolver Bike</button></h5>'+
+                            '<p class="list-group-item-text"><span class="tag tag-warning ml-1">'+
+                            '<i class="icon-bicycle"></i></span></p>'+
+                        '</div>'+
+                    '</a>';
+
+                $('#divAlugueisEmCurso').append(itemAluguelEmCurso+alugueisEmCurso);
+
+              }
 
 
               }
@@ -112,7 +148,32 @@ $( document ).ready(function() {
     }
 
     
+$(document.body).on("click", ".btnDropoff", function(){
+      var pickup = $(this).data("pickup");
+      var location = $(this).data("location");
 
+      data = [];
+      data.push({name: 'pickup',value: pickup});
+      data.push({name: 'location', value: location});
+
+      $.ajax({
+        url: "api/me/dropoffs",
+        type: "post",
+        data: data,
+        dateType: "json",
+        success: function (response) {  
+          console.log(response);
+          toastr.success('Bike devolvida com sucesso.');
+          $('#tableHistorico').empty();
+          $('#divAlugueisEmCurso').empty();
+          getPickUps();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+         var responseText = jQuery.parseJSON(jqXHR.responseText);
+         console.log(responseText.error);
+        }
+       });
+});
 
 
 });
@@ -348,7 +409,7 @@ $( document ).ready(function() {
           </div>
 <!-- friends & weather charts -->
 <div class="row match-height">
-<div class="col-xl-6 col-lg-12">
+<div class="col-xl-8 col-lg-12">
         <div class="card">
             <div class="card-header no-border-bottom">
                 <h4 class="card-title">Histórico de Alugúeis</h4>
@@ -368,6 +429,7 @@ $( document ).ready(function() {
                                 <th>Data e Hora</th>
                                 <th>Duração</th>
                                 <th>Retirada em</th>
+                                <th>Devolvida em</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -390,70 +452,9 @@ $( document ).ready(function() {
                 </div>
             </div>
             <div class="card-body">
-                <div id="friends-activity" class="list-group height-400 position-relative ps-container ps-theme-default ps-active-y" data-ps-id="60f498c0-3d2c-7aee-f718-de21bc28064c">
-                    <a href="#" class="list-group-item list-group-item-action media active">
-                        <div class="media-left">
-                            <img class="media-object avatar avatar-sm rounded-circle" src="robust-assets/images/portrait/small/avatar-s-7.png" alt="Generic placeholder image">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="list-group-item-heading">Kristopher Candy <span class="font-medium-4 float-xs-right">1,0215</span></h5>
-                            <p class="list-group-item-text"><span class="tag tag-success">Running</span><span class="tag tag-warning ml-1">Cycling</span></p>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action media">
-                        <div class="media-left">
-                            <img class="media-object avatar avatar-sm rounded-circle" src="robust-assets/images/portrait/small/avatar-s-8.png" alt="Generic placeholder image">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="list-group-item-heading">Lawrence Fowler <span class="font-medium-4 float-xs-right">2,0215</span></h5>
-                            <p class="list-group-item-text"><span class="tag tag-danger">Dancing</span> <span class="tag tag-primary ml-1">Fitness</span></p>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action media">
-                        <div class="media-left">
-                            <img class="media-object avatar avatar-sm rounded-circle" src="robust-assets/images/portrait/small/avatar-s-9.png" alt="Generic placeholder image">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="list-group-item-heading">Linda Olson <span class="font-medium-4 float-xs-right">1,112</span></h5>
-                            <p class="list-group-item-text"><span class="tag tag-success">Running</span> <span class="tag tag-warning ml-1">Cycling</span> <span class="tag bg-grey ml-1">Other</span></p>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action media">
-                        <div class="media-left">
-                            <img class="media-object avatar avatar-sm rounded-circle" src="robust-assets/images/portrait/small/avatar-s-10.png" alt="Generic placeholder image">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="list-group-item-heading">Roy Clark <span class="font-medium-4 float-xs-right">2,815</span></h5>
-                            <p class="list-group-item-text"><span class="tag tag-warning">Fitness</span> <span class="tag tag-danger ml-1">Dancing</span></p>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action media">
-                        <div class="media-left">
-                            <img class="media-object avatar avatar-sm rounded-circle" src="robust-assets/images/portrait/small/avatar-s-11.png" alt="Generic placeholder image">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="list-group-item-heading">Tammy Gonzales <span class="font-medium-4 float-xs-right">3,226</span></h5>
-                            <p class="list-group-item-text"><span class="tag tag-danger">Dancing</span> <span class="tag tag-success ml-1">Running</span></p>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action media">
-                        <div class="media-left">
-                            <img class="media-object avatar avatar-sm rounded-circle" src="robust-assets/images/portrait/small/avatar-s-12.png" alt="Generic placeholder image">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="list-group-item-heading">Justin Hawkins <span class="font-medium-4 float-xs-right">4,564</span></h5>
-                            <p class="list-group-item-text"><span class="tag tag-success">Running</span> <span class="tag tag-primary ml-1">Fitness</span></p>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action media">
-                        <div class="media-left">
-                            <img class="media-object avatar avatar-sm rounded-circle" src="robust-assets/images/portrait/small/avatar-s-10.png" alt="Generic placeholder image">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="list-group-item-heading">Roy Clark <span class="font-medium-4 float-xs-right">2,815</span></h5>
-                            <p class="list-group-item-text"><span class="tag tag-warning">Fitness</span> <span class="tag tag-danger ml-1">Dancing</span></p>
-                        </div>
-                    </a>
+                <div id="divAlugueisEmCurso" class="list-group height-400 position-relative ps-container ps-theme-default ps-active-y">
+
+                </div>
                 <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 400px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 346px;"></div></div></div>
             </div>
         </div>
