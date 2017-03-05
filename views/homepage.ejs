@@ -46,7 +46,7 @@
           '<h1 id="firstHeading" class="firstHeading">'+location.name+'</h1>'+
           '<div id="bodyContent">'+
           '<p><b>'+location.description+'</b></p>'+
-          '<p style=color:'+cor+'>Quantidade de bikes disponíveis: <b>'+qtdBikes+'</b></p>'+                
+          '<p style=color:'+cor+'><i class="icon-bicycle"></i> Quantidade de bikes disponíveis: <b>'+qtdBikes+'</b></p>'+                
           '</div>'+
           '</div>';
 
@@ -134,9 +134,14 @@
 
     function alugarBike(){
       var location = $('#selectPonto').val();
-      var time = $('#duracaoLocacao').val();
-      var hora = time.split(':')[0];
-      var min = time.split(':')[1];
+      var hora = $('#duracaoLocacaoHoras').val();
+      var min = $('#duracaoLocacaoMinutos').val();
+      if(hora == ""){
+        hora = 0;
+      }
+      if(min == ""){
+        min = 0;
+      }
       var duration = (parseInt(hora)*60) + parseInt(min);
 
       data = [];
@@ -185,6 +190,14 @@
     $("#logout").on("click", function() {
       logOff();
     });
+
+
+    window.setTimeout(function() {
+         $('#cardMapa').attr('style','height:365px !important');
+         $('#cardTempo').attr('style','height:485px !important');
+    }, 3000);
+
+
 
 });
 </script>
@@ -442,7 +455,7 @@
 <!-- friends & weather charts -->
 <div class="row match-height">
     <div class="col-xl-3 col-lg-5 col-md-11">
-        <div class="card no-border box-shadow-0">
+        <div class="card no-border box-shadow-0" id="cardTempo">
             <div class="card-body collapse in">
                 <div class="weather-date position-relative">
                     <div class="date-info position-absolute bg-light-blue bg-lighten-1 white mt-3 p-1 text-xs-center">
@@ -490,7 +503,7 @@
         </div>
     </div>
     <div class="col-xl-5 col-lg-9">
-        <div class="card">
+        <div class="card" id="cardMapa">
             <div class="card-header no-border-bottom">
                 <h4 class="">Encontre o ponto mais <span class="text-muted text-bold-400">próximo</span></h4>
                 <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
@@ -551,7 +564,7 @@
                       <div class="form-group">
                         <label for="timesheetinput5">Horas</label>
                         <div class="position-relative has-icon-left">
-                          <input type="number" max="24" id="duracaoLocacaoHoras" class="form-control" name="starthour">
+                          <input type="number" value ="0" max="24" id="duracaoLocacaoHoras" class="form-control" name="starthour">
                           <div class="form-control-position">
                             <i class="icon-clock5"></i>
                           </div>

@@ -32,6 +32,10 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  '/pickups': {
+    view: 'pickups'
+  },
+
   'get /api/me': 'MeController.details',
   'get /api/me/account': 'MeController.retrieveAccount',
   'patch /api/me/account': 'MeController.updateAccount',

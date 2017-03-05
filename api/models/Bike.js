@@ -1,7 +1,9 @@
 module.exports = {
   attributes: {
     bin: {
-      type: 'string'
+      type: 'string',
+      required: true,
+      unique: true
     },    
     currentLocation: {
       model: 'location'
