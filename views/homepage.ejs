@@ -5,10 +5,15 @@
     <script src="/dependencies/unslider-min.js"></script>
     <script src="/dependencies/echarts.js"></script>
     <script src="/dependencies/robust-app.min.js"></script>
+    <script src="/dependencies/sweetalert.min.js"></script>
 <script type="text/javascript">
   $(function(){
 
     isLogged();
+
+    $("#btnCancelar").on("click", function() {
+      swal("Good job!", "You clicked the button!", "success");
+    });
 
     function isLogged(){
       $.ajax({
@@ -155,6 +160,21 @@
         dateType: "json",
         success: function (response) {  
           console.log(response);
+          swal({   
+            title: "Aluguel concluído com sucesso!",   
+            text: "Deseja visualizar a locação em seu perfil?",   
+            type: "success",   
+            showCancelButton: true,   
+            confirmButtonColor: "#37BC9B",   
+            confirmButtonText: "Sim, visualizar aluguel!",   
+            cancelButtonText: "Não",   
+            closeOnConfirm: true,   
+            closeOnCancel: true }, 
+            function(isConfirm){   
+              if (isConfirm) {     
+                window.location.replace("/pickups");   
+              }
+             });
         },
         error: function(jqXHR, textStatus, errorThrown) {
          var responseText = jQuery.parseJSON(jqXHR.responseText);
@@ -383,7 +403,7 @@
                 </ul>
               </li>
               <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online"><img src="robust-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span><span id="first_name" class="user-name">Felizão</span></a>
-                <div class="dropdown-menu dropdown-menu-right"><a href="#" class="dropdown-item"><i class="icon-head"></i> Edit Profile</a><a href="#" class="dropdown-item"><i class="icon-mail6"></i> My Inbox</a><a href="#" class="dropdown-item"><i class="icon-clipboard2"></i> Task</a><a href="#" class="dropdown-item"><i class="icon-calendar5"></i> Calender</a>
+                <div class="dropdown-menu dropdown-menu-right"><a href="#" class="dropdown-item"><i class="icon-head"></i> Editar Perfil</a><a href="/pickups" class="dropdown-item"><i class="icon-bicycle"></i> Meus Aluguéis</a><a href="#" class="dropdown-item">
                   <div class="dropdown-divider"></div><a id="logout" href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
                 </div>
               </li>
@@ -602,7 +622,7 @@
                     </div>
 
                   <div class="form-actions right">
-                    <button type="button" class="btn btn-warning mr-1">
+                    <button id="btnCancelar" type="button" class="btn btn-warning mr-1">
                       <i class="icon-cross2"></i> Cancelar
                     </button>
                     <button type="button" id="btnAlugar" class="btn btn-primary">
