@@ -28,11 +28,11 @@
                 td.text-center(style="width: 15%")
                   span(ng-model="bike.updatedAt", br-date-mask)
                 td.text-center(style="width: 15%")
-                  .btn-group
+                  .btn-group(ng-if="bike.currentLocation")
                     button.btn.btn-primary(ng-click="edit(bike)")
                      i.fa.fa-edit.fa-lg
                     | &nbsp;
-                  .btn-group
+                  .btn-group(ng-if="bike.currentLocation")
                     button.btn.btn-danger(ng-click="delete(bike)")
                      i.fa.fa-remove.fa-lg
 
