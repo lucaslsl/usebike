@@ -1,0 +1,4 @@
+ol.breadcrumb(style='background-color: #ffffff; padding: 4px 15px;')
+  li(ng-repeat='step in steps', ng-class='{active: $last}', ng-switch='$last || !!step.abstract')
+    a(ng-switch-when='false', href='{{step.ncyBreadcrumbLink}}') {{step.ncyBreadcrumbLabel}}
+    span(ng-switch-when='true') {{step.ncyBreadcrumbLabel}}

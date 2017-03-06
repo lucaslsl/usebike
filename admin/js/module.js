@@ -2,7 +2,8 @@
 
 angular.module('UseBike', [
   'ui.bootstrap', 
-  'ui.router', 
+  'ui.router',
+  'ncy-angular-breadcrumb', 
   'ngResource',
   'ngCookies',
   // 'ngAnimate',

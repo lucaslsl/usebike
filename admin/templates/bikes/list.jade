@@ -12,19 +12,21 @@
           table.table.table-bordered.table-striped
             tbody
               tr
-                th.text-center Nome
-                th.text-center Modelo
-                th.text-center Fabricante
+                th.text-center BIN
+                th.text-center Ponto Atual
                 th.text-center Criado em
                 th.text-center Atualizado em
                 th
 
               tr(ng-repeat="bike in bikes")
-                td.text-center(style="width: 55%") {{bike.bin}}
+                td.text-center(style="width: 25%") {{bike.bin}}
+                td.text-center(style="width: 30%")
+                  span(ng-if="bike.currentLocation") {{bike.currentLocation.name}}
+                  span.text-warning(ng-if="!bike.currentLocation") ALUGADA
                 td.text-center(style="width: 15%")
-                  span(ng-model="bike.created_at", br-date-mask)
+                  span(ng-model="bike.createdAt", br-date-mask)
                 td.text-center(style="width: 15%")
-                  span(ng-model="bike.updated_at", br-date-mask)
+                  span(ng-model="bike.updatedAt", br-date-mask)
                 td.text-center(style="width: 15%")
                   .btn-group
                     button.btn.btn-primary(ng-click="edit(bike)")

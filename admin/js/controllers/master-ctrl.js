@@ -3,9 +3,9 @@
  */
 
 angular.module('UseBike')
-  .controller('MasterCtrl', ['$scope', '$cookieStore', '$rootScope', '$http', '$state', MasterCtrl]);
+  .controller('MasterCtrl', ['$scope', '$cookieStore', '$rootScope', '$http', '$state','$breadcrumb', MasterCtrl]);
 
-function MasterCtrl($scope, $cookieStore, $rootScope, $http, $state) {
+function MasterCtrl($scope, $cookieStore, $rootScope, $http, $state, $breadcrumb) {
   /**
    * Sidebar Toggle & Cookie Control
    */
@@ -37,9 +37,12 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $state) {
     $scope.$apply();
   };
 
-  $scope.user = $rootScope.user;
+  $scope.breadcrumbLast = function(){
+    return $breadcrumb.getLastStep().ncyBreadcrumbLabel;
+  }
 
-  console.log($rootScope.user);
+
+  $scope.user = $rootScope.user;
 
   $scope.logout = function(){
     $http({

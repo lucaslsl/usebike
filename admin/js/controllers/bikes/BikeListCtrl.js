@@ -37,7 +37,6 @@
           $scope.bikes = response.data;
           $scope.loadingBikes = false;
         });
-
       });
 
     }

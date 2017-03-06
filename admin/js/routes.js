@@ -3,8 +3,8 @@
 /**
  * Route configuration for the RDash module.
  */
-angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$breadcrumbProvider',
+  function($stateProvider, $urlRouterProvider, $breadcrumbProvider) {
 
     // For unmatched routes
     $urlRouterProvider.otherwise('/');
@@ -27,6 +27,9 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
             templateUrl: 'templates/base.html',
             controller: 'MasterCtrl'
           }
+        },
+        ncyBreadcrumb: {
+          label: 'Início'
         }
       })
       .state('base.bikes', {
@@ -36,6 +39,9 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
             templateUrl: 'templates/bikes/list.html',
             controller: 'BikeListCtrl'
           }
+        },
+        ncyBreadcrumb: {
+          label: 'Bicicletas'
         }
       })
       .state('base.tables', {
@@ -54,6 +60,11 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
           }
         }
       });
+
+    $breadcrumbProvider.setOptions({
+      templateUrl: 'templates/breadcrumb.html'
+    });
+
   }
 ]).run(['$http', '$rootScope', '$state', function($http, $rootScope, $state){
     // delete $http.defaults.headers['get'];
@@ -71,7 +82,11 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider',
           url:'/api/me'
         })
         .then(function(response){
-          $rootScope.user = response.data;
+          if(response.data.isAdmin){
+            $rootScope.user = response.data;
+          }else{
+            $state.go('login');
+          }
         })
         .catch(function(response){
           $state.go('login');

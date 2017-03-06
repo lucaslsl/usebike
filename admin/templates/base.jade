@@ -4,13 +4,13 @@ body
       ul.sidebar
         li.sidebar-main
           a(ng-click='toggleSidebar()')
-            | Dashboard
+            | UseBike
             span.menu-icon.glyphicon.glyphicon-transfer
         li.sidebar-title
-          span NAVIGATION
+          span Navegação
         li.sidebar-list
           a(ui-sref='base.bikes')
-            | Bikes 
+            | Bicicletas 
             span.menu-icon.fa.fa-bicycle
         li.sidebar-list
           a(ui-sref='base.dashboard')
@@ -39,8 +39,9 @@ body
                       | Sair
             .meta
               .page
-                | Dashboard
+                span {{breadcrumbLast()}}
               .breadcrumb-links
-                | Home / Dashboard
+                div(ncy-breadcrumb)
+                
 
         div(ui-view='content')
