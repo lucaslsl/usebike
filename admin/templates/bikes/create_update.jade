@@ -1,0 +1,21 @@
+.modal-header
+  h4(ng-if="!isUpdate") Adicionar Bicicleta
+  h4(ng-if="isUpdate") Editar Bicicleta
+
+.modal-body 
+  form(name="form", novalidate, valdr-type="Bike",autocomplete="off")
+    .container-fluid    
+      .row
+        .col-md-12
+          .form-group(valdr-form-group)
+            label Número de Identificação da Bicicleta *
+            input.form-control(type="text", id="bin", name="bin", ng-model="bike.bin")
+
+        .col-md-12
+          .form-group(valdr-form-group)
+            label Ponto de Aluguel *
+            select.form-control(id="location", name="location", ng-model="bike.currentLocation", ng-options="item.id as item.name for item in locations")
+
+.modal-footer
+  button.btn.btn-default(ng-click="cancel()") Cancelar
+  button.btn.btn-primary(ng-click="confirm(form)") Salvar 

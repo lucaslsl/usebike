@@ -1,0 +1,10 @@
+.modal-header
+    h4 Excluir {{itemName}}
+
+.modal-body
+    .row
+        .col-md-12 {{question}}
+
+.modal-footer
+    button.btn.btn-default(ng-click="cancel()") Cancelar
+    button.btn.btn-danger(ng-click="confirm()") Excluir

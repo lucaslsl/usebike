@@ -48,15 +48,15 @@
     }
 
 
-    $scope.delete = function(vehicle){
+    $scope.delete = function(bike){
       $rootScope.modal = $uibModal.open({
         animation: true,
         templateUrl: 'templates/util/delete_modal.html',
-        controller: 'VehicleDeleteCtrl',
+        controller: 'BikeDeleteCtrl',
         size: 'md',
         resolve: {
-          vehicle: function(){
-            return vehicle;
+          bike: function(){
+            return bike;
           },
           refresher: function(){
             return $scope.pageChanged;
@@ -68,11 +68,11 @@
     $scope.create = function(){
       $rootScope.modal = $uibModal.open({
         animation: true,
-        templateUrl: 'templates/catalog/vehicle/create_update.html',
-        controller: 'VehicleCreateUpdateCtrl',
+        templateUrl: 'templates/bikes/create_update.html',
+        controller: 'BikeCreateUpdateCtrl',
         size: 'md',
         resolve: {
-          vehicle: function(){
+          bike: function(){
             return undefined;
           },
           refresher: function(){
@@ -82,15 +82,17 @@
       });
     }
 
-    $scope.edit = function(vehicle){
+    $scope.edit = function(bike){
+      var b = angular.copy(bike);
+      b.currentLocation = b.currentLocation.id;
       $rootScope.modal = $uibModal.open({
         animation: true,
-        templateUrl: 'templates/catalog/vehicle/create_update.html',
-        controller: 'VehicleCreateUpdateCtrl',
+        templateUrl: 'templates/bikes/create_update.html',
+        controller: 'BikeCreateUpdateCtrl',
         size: 'md',
         resolve: {
-          vehicle: function(){
-            return vehicle;
+          bike: function(){
+            return b;
           },
           refresher: function(){
             return $scope.pageChanged;

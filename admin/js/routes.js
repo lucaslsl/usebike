@@ -3,8 +3,8 @@
 /**
  * Route configuration for the RDash module.
  */
-angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$breadcrumbProvider',
-  function($stateProvider, $urlRouterProvider, $breadcrumbProvider) {
+angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$breadcrumbProvider', 'valdrProvider','valdrMessageProvider',
+  function($stateProvider, $urlRouterProvider, $breadcrumbProvider, valdrProvider,valdrMessageProvider) {
 
     // For unmatched routes
     $urlRouterProvider.otherwise('/');
@@ -63,6 +63,35 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
 
     $breadcrumbProvider.setOptions({
       templateUrl: 'templates/breadcrumb.html'
+    });
+
+    valdrProvider.addValidator('undefinedObjectValidator');
+
+    valdrMessageProvider
+      .setTemplate('<div><p class="valdr-msg text-warning">{{ violation.message }}</p></div>');
+            
+    valdrProvider.addConstraints({
+        Bike: {
+          bin: {
+            size: {
+              min: 2,
+              max: 200,
+              message: 'Número de Identificação deve conter entre 2 e 200 caracteres.'
+            },
+            required: {
+              message: 'Número de Identificação é obrigatório'
+            }
+          },
+          location: {
+            undefinedObjectValidator: {
+              foo: 'bar',
+              message: ' Ponto não selecionado'
+            },
+            required: {
+              message: ' Ponto não selecionado'
+            }
+          },
+        }
     });
 
   }
