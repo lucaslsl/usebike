@@ -75,7 +75,7 @@
     function getLocations(map){
       var locations;
       $.ajax({
-          url: "api/locations",
+          url: "api/locations?isActive=true",
           type: "get",
           dateType: "json",
           success: function (locations) {  
