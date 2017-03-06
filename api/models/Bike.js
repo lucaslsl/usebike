@@ -7,6 +7,10 @@ module.exports = {
     },    
     currentLocation: {
       model: 'location'
-    }
+    },
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true
+    },
   }
 }

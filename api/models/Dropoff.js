@@ -8,6 +8,10 @@ module.exports = {
     location: {
       model: 'location',
       required: true
-    }
+    },
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true
+    },
   }
 }

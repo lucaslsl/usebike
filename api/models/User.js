@@ -23,6 +23,10 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false
     },
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true
+    },
     account: {
       collection: 'account',
       via: 'user'

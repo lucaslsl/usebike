@@ -18,6 +18,10 @@ module.exports = {
       columnType: 'DECIMAL(11,8)',
       required: true
     },
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true
+    },
     bikes: {
       collection: 'bike',
       via: 'currentLocation'

@@ -21,6 +21,10 @@ module.exports = {
       required: true,
       unique: true
     },
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true
+    },
 
     transactions: {
       collection: 'transaction',

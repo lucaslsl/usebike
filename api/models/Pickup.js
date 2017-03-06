@@ -17,6 +17,10 @@ module.exports = {
       columnType: 'INT',
       required: true
     },
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true
+    },
     dropoff: {
       collection: 'dropoff',
       via: 'pickup'

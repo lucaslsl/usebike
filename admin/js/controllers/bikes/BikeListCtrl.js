@@ -30,7 +30,7 @@
         $http({
           method: 'GET',
           data: "",
-          url:'/api/bikes',
+          url:'/api/bikes?isActive=true',
           params: {limit: $scope.pagination.perPage, skip: (parseInt(page)-1) * $scope.pagination.perPage}
         })
         .then(function(response){

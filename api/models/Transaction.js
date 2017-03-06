@@ -12,6 +12,10 @@ module.exports = {
             ],
       required: true
     },
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true
+    },
     pickup: {
       model: 'pickup',
     },

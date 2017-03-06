@@ -47,7 +47,7 @@ module.exports = {
 
     var attrs = req.body;
 
-    var bikeAvailables = yield Bike.find({ currentLocation: attrs.location });
+    var bikeAvailables = yield Bike.find({ currentLocation: attrs.location, isActive: true });
     var bike = bikeAvailables[0];
 
     if(!bike){
@@ -72,7 +72,7 @@ module.exports = {
     var limit = parseInt(req.query.limit || 30);
     var skip = parseInt(req.query.skip || 0);
 
-    var pickups = yield Pickup.find({user: req.session.userId})
+    var pickups = yield Pickup.find({user: req.session.userId, isActive: true})
     .populate('dropoff').populate('location').limit(limit).skip(skip);
 
     var dropoffsIds = [];
@@ -105,7 +105,8 @@ module.exports = {
 
     var pickup = yield Pickup.findOne({
       user: req.session.userId,
-      id: parseInt(req.param('pickupId'))
+      id: parseInt(req.param('pickupId')),
+      isActive: true
     }).populate('dropoff').populate('location').populate('transactions');
 
     if(!pickup){
@@ -132,7 +133,7 @@ module.exports = {
 
     var attrs = req.body;
 
-    var pickup = yield Pickup.findOne({ id: attrs.pickup });
+    var pickup = yield Pickup.findOne({ id: attrs.pickup , isActive: true});
 
     if(!pickup){
       return res.status(422).json({ error: 'invalid_pickup' });

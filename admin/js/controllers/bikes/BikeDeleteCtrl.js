@@ -14,9 +14,23 @@
         }
 
         $scope.confirm = function(){
+            // $http({
+            //     method: 'DELETE',
+            //     data: "",
+            //     url:'/api/bikes/' + bike.id,
+            // })
+            // .then(function(response){
+            //     refresher();
+            //     $uibModalInstance.close();
+            //     toastr.success('Item excluido com sucesso');
+            // })
+            // .catch(function(response){
+            //     $uibModalInstance.close();
+            //     toastr.error('Não foi possivel excluir o item');
+            // });
             $http({
-                method: 'DELETE',
-                data: "",
+                method: 'PATCH',
+                data: {isActive: false},
                 url:'/api/bikes/' + bike.id,
             })
             .then(function(response){
