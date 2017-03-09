@@ -73,7 +73,7 @@ module.exports = {
     var skip = parseInt(req.query.skip || 0);
 
     var pickups = yield Pickup.find({user: req.session.userId, isActive: true})
-    .populate('dropoff').populate('location').limit(limit).skip(skip);
+    .populate('dropoff').populate('location').populate('transactions').limit(limit).skip(skip);
 
     var dropoffsIds = [];
 
