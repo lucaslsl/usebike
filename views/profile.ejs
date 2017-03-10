@@ -87,7 +87,6 @@
       logOff();
     });
 
-
 });
 </script>
 
@@ -319,12 +318,12 @@
     </div>
     <div class="card-body collapse in">
       <div class="card-block">
-        <form class="form-horizontal" action="index.html" novalidate>
+        <form name="formUpdate" class="form-horizontal" action="index.html" novalidate>
 
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6">
               <fieldset class="form-group has-feedback has-icon-left">
-                            <input type="text" name="cpf" id="cpf" class="form-control input-lg" placeholder="CPF" tabindex="1">
+                            <input type="text" name="cpf" id="cpf" class="form-control input-lg" placeholder="CPF" maxlength="14" tabindex="1" onKeyPress="MascaraCPF(formUpdate.cpf);">
                             <div class="form-control-position">
                     <i class="icon-head"></i>
                 </div>
@@ -342,7 +341,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6">
               <fieldset class="form-group has-feedback has-icon-left">
-                <input type="text" name="cep" id="cep" class="form-control input-lg" placeholder="CEP" tabindex="5" required>
+                <input type="text" name="cep" id="cep" class="form-control input-lg" placeholder="CEP" tabindex="5" onKeyPress="MascaraCep(formUpdate.cep);" required>
                 <div class="form-control-position">
                     <i class="icon-mail6"></i>
                 </div>
@@ -353,7 +352,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8">
               <fieldset id="validatePass" class="form-group has-feedback has-icon-left">
-                <input type="text" name="creditCard" id="creditCard" class="form-control input-lg" placeholder="Cartão de Crédito" tabindex="6">
+                <input type="text" name="creditCard" id="creditCard" class="form-control input-lg" placeholder="Cartão de Crédito" maxlength="19" tabindex="6" onKeyPress="MascaraCartaoDeCredito(formUpdate.creditCard);">
                 <div class="form-control-position">
                     <i class="icon-card"></i>
                 </div>
@@ -382,3 +381,66 @@
     </footer>
     
  
+<script type="text/javascript">
+function mascaraInteiro(){
+        if (event.keyCode < 48 || event.keyCode > 57){
+                event.returnValue = false;
+                return false;
+        }
+        return true;
+}
+
+    function MascaraCPF(cpf){
+          if(mascaraInteiro(cpf)==false){
+                  event.returnValue = false;
+          }       
+          return formataCampo(cpf, '000.000.000-00', event);
+  }
+
+function formataCampo(campo, Mascara, evento) { 
+        var boleanoMascara; 
+
+        var Digitato = evento.keyCode;
+        exp = /\-|\.|\/|\(|\)| /g
+        campoSoNumeros = campo.value.toString().replace( exp, "" ); 
+
+        var posicaoCampo = 0;    
+        var NovoValorCampo="";
+        var TamanhoMascara = campoSoNumeros.length;; 
+
+        if (Digitato != 8) { // backspace 
+                for(i=0; i<= TamanhoMascara; i++) { 
+                        boleanoMascara  = ((Mascara.charAt(i) == "-") || (Mascara.charAt(i) == ".")
+                                                                || (Mascara.charAt(i) == "/")) 
+                        boleanoMascara  = boleanoMascara || ((Mascara.charAt(i) == "(") 
+                                                                || (Mascara.charAt(i) == ")") || (Mascara.charAt(i) == " ")) 
+                        if (boleanoMascara) { 
+                                NovoValorCampo += Mascara.charAt(i); 
+                                  TamanhoMascara++;
+                        }else { 
+                                NovoValorCampo += campoSoNumeros.charAt(posicaoCampo); 
+                                posicaoCampo++; 
+                          }              
+                  }      
+                campo.value = NovoValorCampo;
+                  return true; 
+        }else { 
+                return true; 
+        }
+}
+
+function MascaraCep(cep){
+                if(mascaraInteiro(cep)==false){
+                event.returnValue = false;
+        }       
+        return formataCampo(cep, '00.000-000', event);
+}
+
+function MascaraCartaoDeCredito(numCartao){
+                if(mascaraInteiro(numCartao)==false){
+                event.returnValue = false;
+        }       
+        return formataCampo(numCartao, '0000 0000 0000 0000', event);
+}
+
+</script>
