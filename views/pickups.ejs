@@ -5,10 +5,16 @@
     <script src="/dependencies/unslider-min.js"></script>
     <script src="/dependencies/echarts.js"></script>
     <script src="/dependencies/robust-app.min.js"></script>
+    <script src="/dependencies/sweetalert.min.js"></script>
 <style type="text/css">
 .btn-primary {
     border-color: #3D818A;
     background-color: #0D5C77;
+    color: #FFF;
+}
+.btn-success-alt {
+    border-color: #DCE775;
+    background-color: #DCE775;
     color: #FFF;
 }
 .btn-primary:hover {
@@ -87,6 +93,9 @@ $( document ).ready(function() {
                 var aluguel = "";
                 var alugueisEmCurso = "";
                 var itemAluguelEmCurso = "";
+                var valores = "";
+
+                //console.log(pickups);
 
                 if(pickups[pickup].dropoff != null){
                   status = "Ok"
@@ -111,10 +120,13 @@ $( document ).ready(function() {
                                 '<td class="text-truncate">'+duracao+' minutos</td>'+
                                 '<td class="text-truncate"><span class="tag tag-default tag-primary">'+retiradaEm+'</span></td>'+
                                 '<td class="text-truncate"><span class="tag tag-default tag-success">'+devolvidaEm+'</span></td>'+
-                                '<td class="text-truncate"><span class="tag tag-default tag-'+tagStatus+'">'+status+'</span></td>'+
-                            '</tr>';
+                                '<td class="text-truncate"><span class="tag tag-default tag-'+tagStatus+'">'+status+'</span></td>';
+                       
 
-                $('#tableHistorico').append(linhaAluguel+aluguel);
+
+                valores = "<td class='text-truncate'><button data-transactions="+JSON.stringify(pickups[pickup].transactions)+" type='button' class='btn btn-success-alt btnValores'>+</button></td></tr>";
+
+                $('#tableHistorico').append(linhaAluguel+aluguel+valores);
 
 
                if(pickups[pickup].dropoff == null){
@@ -175,6 +187,42 @@ $(document.body).on("click", ".btnDropoff", function(){
        });
 });
 
+$(document.body).on("click", ".btnValores", function(){
+
+      var transactions = $(this).data("transactions");
+      //console.log(transactions);
+      textTransactions = "";
+
+      for(var transaction = 0; transaction < transactions.length; transaction ++){
+        console.log(transactions[transaction]);
+        textTransactions += '<span><b>Tipo de transação:</b> '+transactions[transaction].type+'</span> - '+
+               '<span><b>Valor:</b> '+transactions[transaction].amount+' R$</span><br>';
+      }
+
+      swal({   
+        title: "Valores<small> locação</small>",   
+        type: "info",
+        text: textTransactions,   
+        html: true });
+      });
+
+    function logOff(){
+      $.ajax({
+          url: "api/me/logout",
+          type: "put",
+          dateType: "json",
+          success: function (response) {  
+            window.location.replace("/");
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.log(response);           
+          }
+       });        
+    }
+
+    $("#logout").on("click", function() {
+      logOff();
+    });
 
 });
 
@@ -340,7 +388,7 @@ $(document.body).on("click", ".btnDropoff", function(){
             </ul>
             <ul class="nav navbar-nav float-xs-right">
               <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online"><img src="robust-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span><span id="first_name" class="user-name">Felizão</span></a>
-                <div class="dropdown-menu dropdown-menu-right"><a href="#" class="dropdown-item"><i class="icon-head"></i> Editar Perfil</a><a href="/home" class="dropdown-item"><i class="icon-home"></i> Home</a></a>
+                <div class="dropdown-menu dropdown-menu-right"><a href="/profile" class="dropdown-item"><i class="icon-head"></i> Editar Perfil</a><a href="/home" class="dropdown-item"><i class="icon-home"></i> Home</a></a>
                   <div class="dropdown-divider"></div><a id="logout" href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
                 </div>
               </li>
@@ -421,7 +469,7 @@ $(document.body).on("click", ".btnDropoff", function(){
                 </div>
             </div>
             <div class="card-body collapse in">
-                <div id="daily-activity" class="table-responsive height-350 ps-container ps-theme-default ps-active-y" data-ps-id="b06c5823-a193-b769-b191-24c34ea4ac95">
+                <div id="daily-activity" class="table-responsive ps-container ps-theme-default ps-active-y" data-ps-id="b06c5823-a193-b769-b191-24c34ea4ac95">
                     <table class="table table-hover mb-0">
                         <thead>
                             <tr>
@@ -431,12 +479,13 @@ $(document.body).on("click", ".btnDropoff", function(){
                                 <th>Retirada em</th>
                                 <th>Devolvida em</th>
                                 <th>Status</th>
+                                <th>Valores</th>
                             </tr>
                         </thead>
                         <tbody id="tableHistorico">
                         </tbody>
                     </table>
-                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -36px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 39px; height: 350px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 36px; height: 314px;"></div></div></div>
+                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -36px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div></div>
             </div>
         </div>
     </div>
@@ -455,7 +504,7 @@ $(document.body).on("click", ".btnDropoff", function(){
                 <div id="divAlugueisEmCurso" class="list-group height-400 position-relative ps-container ps-theme-default ps-active-y">
 
                 </div>
-                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 400px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 346px;"></div></div></div>
+              </div>
             </div>
         </div>
     </div>
