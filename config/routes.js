@@ -41,6 +41,7 @@ module.exports.routes = {
   'patch /api/me/account': 'MeController.updateAccount',
   'get /api/me/account/transactions': 'MeController.retrieveAccountTransactions',
   'get /api/me/pickups': 'MeController.retrievePickups',
+  'get /api/me/pickups/count': 'MeController.countPickups',
   'get /api/me/pickups/:pickupId': 'MeController.retrievePickup',
   'post /api/me/pickups': 'MeController.createPickup',
   'post /api/me/dropoffs': 'MeController.createDropoff',

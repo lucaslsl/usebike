@@ -101,6 +101,11 @@ module.exports = {
 
   }),
 
+  countPickups: wrap(function* (req, res) {
+    let total = yield Pickup.count({user: req.session.userId, isActive: true})
+    res.status(200).json({total: total});
+  }),
+
   retrievePickup: wrap(function* (req, res) {
 
     var pickup = yield Pickup.findOne({
