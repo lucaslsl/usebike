@@ -6,14 +6,12 @@
     <script src="/dependencies/echarts.js"></script>
     <script src="/dependencies/robust-app.min.js"></script>
     <script src="/dependencies/sweetalert.min.js"></script>
+    <script src="dependencies/jqBootstrapValidation.js" type="text/javascript"></script>
+    <script src="dependencies/form-login-register.js" type="text/javascript"></script>
 <script type="text/javascript">
   $(function(){
 
     isLogged();
-
-    $("#btnCancelar").on("click", function() {
-      swal("Good job!", "You clicked the button!", "success");
-    });
 
     function isLogged(){
       $.ajax({
@@ -32,178 +30,44 @@
        });      
     }
 
-  initMap();
 
-  function putLocationOnMap(location,map){
-      var qtdBikes = location.bikes.length
-      var cor;
-      if(qtdBikes > 5){
-        cor = 'green';
-      }else if(qtdBikes < 5 && qtdBikes > 0){
-        cor = 'orange';
-      }else if(qtdBikes == 0){
-        cor = 'red';
-      }
-
-      var contentString = '<div id="content">'+
-          '<div id="siteNotice">'+
-          '</div>'+
-          '<h1 id="firstHeading" class="firstHeading">'+location.name+'</h1>'+
-          '<div id="bodyContent">'+
-          '<p><b>'+location.description+'</b></p>'+
-          '<p style=color:'+cor+'><i class="icon-bicycle"></i> Quantidade de bikes disponíveis: <b>'+qtdBikes+'</b></p>'+                
-          '</div>'+
-          '</div>';
-
-      var infowindow = new google.maps.InfoWindow({
-        content: contentString
-      });
-
-      var marker = new google.maps.Marker({
-        position: {lat: location.latitude, lng: location.longitude},
-        map: map,
-        title: location.name
-      });
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);        
-        var opcao = $("#selectPonto").find("option:contains("+this.title+")");
-        $('#selectPonto').val(opcao[0].value);
-      });
-
-    }
-
-    function getLocations(map){
-      var locations;
-      $.ajax({
-          url: "api/locations",
-          type: "get",
-          dateType: "json",
-          success: function (locations) {  
-              for(var location = 0; location < locations.length; location++){
-                $('#selectPonto').append($("<option></option>")
-                  .attr("value",locations[location].id)
-                  .text(locations[location].name)); 
-
-                putLocationOnMap(locations[location],map);
-              }
-
-              $('#qtdPontos').text(locations.length);
-
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-              alert(textStatus, errorThrown);
-          }
-       });    
-      }
-
-
-    function initMap() {
-      var saoluis = {lat: -2.55, lng: -44.28};
-
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: saoluis
-      });
-
-      map.setOptions({draggable: true, zoomControl: false, scrollwheel: true, disableDoubleClickZoom: true});
-
-      getLocations(map);
-
-    }
-
-
-    Date.prototype.toDateInputValue = (function() {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0,10);
-    });
-
-    $('#dataLocacao').val(new Date().toDateInputValue());
-
-    $( "#duracaoLocacaoHoras, #duracaoLocacaoMinutos" ).change(function() {
-      var hora = $('#duracaoLocacaoHoras').val();
-      var min = $('#duracaoLocacaoMinutos').val();
-      if(hora == ""){
-        hora = 0;
-      }
-      if(min == ""){
-        min = 0;
-      }
-      var minutos = (parseInt(hora)*60) + parseInt(min);
-      
-      var preco = parseInt(minutos) * 0.25;
-      $('#precoLocacao').val(preco);
-      if(isNaN(preco)){
-        $('#precoLocacao').val(0);
-      }
-      
-    });
-
-    function alugarBike(){
-      var location = $('#selectPonto').val();
-      var hora = $('#duracaoLocacaoHoras').val();
-      var min = $('#duracaoLocacaoMinutos').val();
-      if(hora == ""){
-        hora = 0;
-      }
-      if(min == ""){
-        min = 0;
-      }
-      var duration = (parseInt(hora)*60) + parseInt(min);
+    function updateUser(){
+      var endereco = $('#endereco').val();
+      var cep = $('#cep').val();
+      var cpf = $('#cpf').val();
+      var creditCard = $('#creditCard').val();
+      var creditCardValidated = true;
 
       data = [];
-      data.push({name: 'location',value: location});
-      data.push({name: 'duration', value: duration});
+      data.push({name: 'address',value: endereco});
+      data.push({name: 'addressPostalCode', value: cep});
+      data.push({name: 'cpf', value: cpf});
+      data.push({name: 'creditCard', value: creditCard});
+      data.push({name: 'creditCardValidated', value: creditCardValidated});
 
       $.ajax({
-        url: "api/me/pickups",
-        type: "post",
+        url: "api/me/account",
+        type: "patch",
         data: data,
         dateType: "json",
-        success: function (response) {  
-          console.log(response);
-          swal({   
-            title: "Aluguel concluído com sucesso!",   
-            text: "Deseja visualizar a locação em seu perfil?",   
-            type: "success",   
-            showCancelButton: true,   
-            confirmButtonColor: "#37BC9B",   
-            confirmButtonText: "Sim, visualizar aluguel!",   
-            cancelButtonText: "Não",   
-            closeOnConfirm: true,   
-            closeOnCancel: true }, 
-            function(isConfirm){   
-              if (isConfirm) {     
-                window.location.replace("/pickups");   
-              }
-             });
+        success: function (response) { 
+          toastr.success("Atualização realizada com sucesso!"); 
+          window.setTimeout(function() {
+            window.location.replace("/");
+          }, 3000);
         },
         error: function(jqXHR, textStatus, errorThrown) {
          var responseText = jQuery.parseJSON(jqXHR.responseText);
          console.log(responseText.error);
-         if(responseText.error == 'unavailable_bikes'){
-             toastr.warning('Ops','Não há bikes disponíveis neste ponto!');
-             //alert('Não há bikes disponíveis neste ponto!');
-         }else if(responseText.error == 'invalid_account'){
-          swal({   
-            title: "Atualize seus dados!",   
-            text: "Antes de alugar uma bike conosco, você deve nos fornecer seus dados pessoais.",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#37BC9B",   
-            confirmButtonText: "Sim, atualizar meus dados agora!",   
-            cancelButtonText: "Agora não",   
-            closeOnConfirm: true,   
-            closeOnCancel: true }, 
-            function(isConfirm){   
-              if (isConfirm) {     
-                window.location.replace("/profile");   
-              }
-             });
-         }
         }
        });
     }
+
+    $("#btnUpdateUser").on("click", function() {
+
+      updateUser();      
+
+    });
 
     function logOff(){
       $.ajax({
@@ -219,20 +83,9 @@
        });        
     }
 
-    $("#btnAlugar").on("click", function() {
-      alugarBike();
-    });
-
     $("#logout").on("click", function() {
       logOff();
     });
-
-
-    window.setTimeout(function() {
-         $('#cardMapa').attr('style','height:365px !important');
-         $('#cardTempo').attr('style','height:485px !important');
-    }, 3000);
-
 
 
 });
@@ -438,219 +291,87 @@
         <div class="content-header row">
         </div>
         <div class="content-body"><!--fitness stats-->
-<div class="row">
-    <div class="col-xs-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-block">
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-6 col-md-12 border-right-grey border-right-lighten-3 clearfix">
-                            <div class="float-xs-left pl-2">
-                                <span class="grey darken-1 block">Retirada em</span>
-                                <span id="qtdPontos" class="font-large-3 line-height-1 text-bold-300">25</span>
-                            </div>
-                            <div class="float-xs-left mt-2">
-                                <span class="grey darken-1 block">pontos</span>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-12 border-right-grey border-right-lighten-3 clearfix">
-                            <div class="float-xs-left pl-2">
-                                <span class="grey darken-1 block">Bikes</span>
-                                <span class="font-large-3 line-height-1 text-bold-300">172</span>
-                            </div>
-                            <div class="float-xs-left mt-2">
-                                <span class="grey darken-1 block">Alugadas</span>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-12 border-right-grey border-right-lighten-3 clearfix">
-                            <div class="float-xs-left pl-2">
-                                <span class="grey darken-1 block">Bikes</span>
-                                <span id="totalBikes"class="font-large-3 line-height-1 text-bold-300">34</span>
-                            </div>
-                            <div class="float-xs-left mt-2">
-                                <span class="grey darken-1 block">Disponiveis</span>
-                                <span class="block"><i class="icon-arrow-down4 deep-orange accent-3"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-12 clearfix">
-                            <div class="float-xs-left pl-2">
-                                <span class="grey darken-1 block">Tempo médio de locação</span>
-                                <span class="font-large-3 line-height-1 text-bold-300">2.3</span>
-                            </div>
-                            <div class="float-xs-left mt-2">
-                                <span class="grey darken-1 block">hh:mm</span>
-                                <span class="block"><i class="icon-arrow-up4 success"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- friends & weather charts -->
 <div class="row match-height">
-    <div class="col-xl-3 col-lg-5 col-md-11">
-        <div class="card no-border box-shadow-0" id="cardTempo">
-            <div class="card-body collapse in">
-                <div class="weather-date position-relative">
-                    <div class="date-info position-absolute bg-light-blue bg-lighten-1 white mt-3 p-1 text-xs-center">
-                        <span class="date block">28</span>
-                        <span class="month">Fev</span>
-                    </div>
-                </div>
-                <div class="card-block bg-light-blue bg-lighten-4">
-                    <ul class="list-inline text-xs-right mb-0">
-                        <li><a data-action="reload"><i class="icon-reload font-medium-4 light-blue"></i></a></li>
-                    </ul>
-                    <div class="animated-weather-icons text-xs-center">
-                        <svg version="1.1" id="cloudDrizzleAlt" class="climacon climacon_cloudDrizzleAlt climacon-light-blue climacon-darken-2 height-200" viewBox="15 15 70 70">
-                            <g class="climacon_iconWrap climacon_iconWrap-cloudDrizzleAlt">
-                                <g class="climacon_wrapperComponent climacon_wrapperComponent-drizzle">
-                                    <path class="climacon_component climacon_component-stroke climacon_component-stroke_drizzle climacon_component-stroke_drizzle-left" id="Drizzle-Left_1_" d="M56.969,57.672l-2.121,2.121c-1.172,1.172-1.172,3.072,0,4.242c1.17,1.172,3.07,1.172,4.24,0c1.172-1.17,1.172-3.07,0-4.242L56.969,57.672z"></path>
-                                    <path class="climacon_component climacon_component-stroke climacon_component-stroke_drizzle climacon_component-stroke_drizzle-middle" d="M50.088,57.672l-2.119,2.121c-1.174,1.172-1.174,3.07,0,4.242c1.17,1.172,3.068,1.172,4.24,0s1.172-3.07,0-4.242L50.088,57.672z"></path>
-                                    <path class="climacon_component climacon_component-stroke climacon_component-stroke_drizzle climacon_component-stroke_drizzle-right" d="M43.033,57.672l-2.121,2.121c-1.172,1.172-1.172,3.07,0,4.242s3.07,1.172,4.244,0c1.172-1.172,1.172-3.07,0-4.242L43.033,57.672z"></path>
-                                </g>
-                                <g class="climacon_wrapperComponent climacon_wrapperComponent-cloud">
-                                    <path class="climacon_component climacon_component-stroke climacon_component-stroke_cloud" d="M59.943,41.642c-0.696,0-1.369,0.092-2.033,0.205c-2.736-4.892-7.961-8.203-13.965-8.203c-8.835,0-15.998,7.162-15.998,15.997c0,5.992,3.3,11.207,8.177,13.947c0.276-1.262,0.892-2.465,1.873-3.445l0.057-0.057c-3.644-2.061-6.106-5.963-6.106-10.445c0-6.626,5.372-11.998,11.998-11.998c5.691,0,10.433,3.974,11.666,9.29c1.25-0.81,2.732-1.291,4.332-1.291c4.418,0,8,3.581,8,7.999c0,3.443-2.182,6.371-5.235,7.498c0.788,1.146,1.194,2.471,1.222,3.807c4.666-1.645,8.014-6.077,8.014-11.305C71.941,47.014,66.57,41.642,59.943,41.642z"></path>
-                                </g>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="weather-details text-xs-center">
-                        <span class="mt-2 block light-blue darken-2">Chuva</span>
-                        <span class="font-medium-4 text-bold-500 light-blue darken-4">São Luis, BRA</span>
-                    </div>
-                </div>
-                <div class="card-footer bg-light-blue bg-darken-3 py-3 no-border">
-                    <div class="row">
-                        <div class="col-xs-4 text-xs-center display-table-cell">
-                            <i class="icon-wind font-large-1 white lighten-3 valign-middle"></i> <span class="white valign-middle">2KM/H</span>
-                        </div>
-                        <div class="col-xs-4 text-xs-center display-table-cell">
-                            <i class="icon-sun2 font-large-1 white lighten-3 valign-middle"></i> <span class="white valign-middle">67%</span>
-                        </div>
-                        <div class="col-xs-4 text-xs-center display-table-cell">
-                            <i class="icon-thermometer font-large-1 white lighten-3 valign-middle"></i> <span class="white valign-middle">26.0&deg;</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div id="preloader-wrapper">
+      <div id="loader">
+        <div class="chasing-dots loader-black">
+          <div class="child dot1"></div>
+          <div class="child dot2"></div>
         </div>
+      </div>
+      <div class="loader-section section-top bg-amber"></div>
+      <div class="loader-section section-bottom bg-amber"></div>
     </div>
-    <div class="col-xl-5 col-lg-9">
-        <div class="card" id="cardMapa">
-            <div class="card-header no-border-bottom">
-                <h4 class="">Encontre o ponto mais <span class="text-muted text-bold-400">próximo</span></h4>
-                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                <div class="heading-elements">
-                    <ul class="list-inline mb-0">
-                        <li><a data-action="reload"><i class="icon-reload"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-body collapse in">
-                <div class="card-block" style="padding: 0rem;">
-                  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc-ISwf2kYAUPYbAN2e3xusuDx1TSxuO0&callback=initMap" async defer></script> -->
-                </div>
-                 <div id="map" class="height-300"></div>
-            </div>
+
+    <!-- END PRELOADER-->
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+    <div class="robust-content content container-fluid" style="margin-left:0px">
+      <div class="content-wrapper">
+        <div class="content-header row">
         </div>
+        <div class="content-body"><section class="col-md-4 offset-md-4 col-xs-8 offset-xs-2  box-shadow-2 p-0">
+  <div class="card border-grey border-lighten-3 px-2 py-2 row mb-0">
+    <div class="card-header no-border pb-0">
+      <div class="card-title text-xs-center">
+        <img src="robust-assets/images/logo/usebike-logo.png" alt="branding logo">
+      </div>
+      <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span>Atualização de dados cadastrais</span></h6>
     </div>
-    <div class="col-xl-4">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title" id="basic-layout-square-controls">Locação</h4>
-              <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-              <div class="heading-elements">
-                <ul class="list-inline mb-0">
-                  <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
-                  <li><a data-action="reload"><i class="icon-reload"></i></a></li>
-                  <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="card-body collapse in">
-              <div class="card-block">
+    <div class="card-body collapse in">
+      <div class="card-block">
+        <form class="form-horizontal" action="index.html" novalidate>
 
-                <form class="form">
-                  <div class="form-body">
-
-                    <div class="form-group">
-                      <label for="projectinput5">Ponto de Retirada</label>
-                      <select id="selectPonto" name="interested" class="form-control">
-
-                      </select>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="complaintinput3">Data da Locação</label>
-                      <input disabled type="date" id="dataLocacao" class="form-control round" name="complaintdate">
-                    </div>
-
-                    <div class="form-group">
-                      <label for="timesheetinput5">Duração</label>
-                      <small>(hora:minuto)</small>
-                    </div>
-
-                    <div class="row">
-
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      
-                      <div class="form-group">
-                        <label for="timesheetinput5">Horas</label>
-                        <div class="position-relative has-icon-left">
-                          <input type="number" value ="0" max="24" id="duracaoLocacaoHoras" class="form-control" name="starthour">
-                          <div class="form-control-position">
-                            <i class="icon-clock5"></i>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                      
-
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      
-                        <div class="form-group">
-                          <label for="timesheetinput5">Minutos</label>
-                          <div class="position-relative has-icon-left">
-                            <input type="number" max="60" id="duracaoLocacaoMinutos" class="form-control" name="startminutes">
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <fieldset class="form-group has-feedback has-icon-left">
+                            <input type="text" name="cpf" id="cpf" class="form-control input-lg" placeholder="CPF" tabindex="1">
                             <div class="form-control-position">
-                              <i class="icon-clock5"></i>
-                            </div>
-                          </div>
-                        </div>
-                      
-                    </div>
-
-                      
-                    </div>
-
-
-                     <div class="form-group">
-                      <label>Total</label>
-                      <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input id="precoLocacao" type="text" disabled class="form-control square" placeholder="total" aria-label="Amount (to the nearest dollar)" name="amount">
-                        <span class="input-group-addon">.00</span>
-                      </div>
-                    </div>
-
-                  <div class="form-actions right">
-                    <button id="btnCancelar" type="button" class="btn btn-warning mr-1">
-                      <i class="icon-cross2"></i> Cancelar
-                    </button>
-                    <button type="button" id="btnAlugar" class="btn btn-primary">
-                      <i class="icon-check2"></i> Alugar
-                    </button>
-                  </div>
-                </form>
-
-              </div>
+                    <i class="icon-head"></i>
+                </div>
+              </fieldset>
             </div>
           </div>
+
+          <fieldset class="form-group has-feedback has-icon-left">
+            <input type="text" name="endereco" id="endereco" class="form-control input-lg" placeholder="Seu endereço" tabindex="4">
+            <div class="form-control-position">
+                <i class="icon-home"></i>
+            </div>
+            <div class="help-block font-small-3"></div>
+          </fieldset>
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <fieldset class="form-group has-feedback has-icon-left">
+                <input type="text" name="cep" id="cep" class="form-control input-lg" placeholder="CEP" tabindex="5" required>
+                <div class="form-control-position">
+                    <i class="icon-mail6"></i>
+                </div>
+                <div class="help-block font-small-3"></div>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-8">
+              <fieldset id="validatePass" class="form-group has-feedback has-icon-left">
+                <input type="text" name="creditCard" id="creditCard" class="form-control input-lg" placeholder="Cartão de Crédito" tabindex="6">
+                <div class="form-control-position">
+                    <i class="icon-card"></i>
+                </div>
+                <div class="help-block font-small-3"></div>
+              </fieldset>
+            </div>
+          </div>
+                        <button type="button" id="btnUpdateUser" class="btn btn-outline-primary btn-block"><i class="icon-head"></i> Atualizar</button>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
+
+        </div>
+      </div>
+    </div>
 </div>
   </div>
 
