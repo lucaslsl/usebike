@@ -77,6 +77,20 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $state, $breadcrumb
     });
   }
 
+  $scope.$on('$stateChangeSuccess', function () {
+    if($state.is('base')){
+        $state.go('base.users');
+    }
+  });
+
+  // controller: ['$scope','$state', function($scope,$state){
+  //                   $scope.$on('$stateChangeSuccess', function () {
+  //                       if($state.is('index')){
+  //                           $state.go('catalog.vehicles');
+  //                       }
+  //                   });  
+  //               }]
+
 
 
 }
