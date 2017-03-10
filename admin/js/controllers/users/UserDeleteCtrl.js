@@ -2,12 +2,12 @@
 
   angular
     .module('UseBike')
-    .controller('BikeDeleteCtrl', ['$http','$rootScope','$scope','toastr','$uibModalInstance','refresher','bike', BikeDeleteCtrl]);
+    .controller('UserDeleteCtrl', ['$http','$rootScope','$scope','toastr','$uibModalInstance','refresher','user', UserDeleteCtrl]);
 
-  function BikeDeleteCtrl($http, $rootScope, $scope, toastr,$uibModalInstance,refresher,bike) {
+  function UserDeleteCtrl($http, $rootScope, $scope, toastr,$uibModalInstance,refresher,user) {
     
     $scope.itemName = 'Bicicleta';
-    $scope.question = 'Tem certeza que deseja excluir a bicicleta com número de identificação "' + bike.bin + '".';
+    $scope.question = 'Tem certeza que deseja excluir o usuário "' + user.first_name + ' ' + user.last_name + '".';
 
     $scope.cancel = function(){
       $uibModalInstance.close();
@@ -17,7 +17,7 @@
       $http({
         method: 'PATCH',
         data: {isActive: false},
-        url:'/api/bikes/' + bike.id,
+        url:'/api/users/' + user.id,
       })
       .then(function(response){
         refresher();

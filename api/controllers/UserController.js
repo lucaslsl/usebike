@@ -72,6 +72,17 @@ module.exports = {
 
   }), 
 
+  count: wrap(function* (req, res) {
+    let q = {isActive: true};
+
+    if(req.query.isAdmin){
+      q.isAdmin = req.query.isAdmin === 'true' ? true : false;
+    }
+
+    let total = yield User.count(q);
+    res.status(200).json({total: total});
+  }),
+
 
   
 }

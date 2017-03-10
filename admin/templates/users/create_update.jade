@@ -1,0 +1,38 @@
+.modal-header
+  h4(ng-if="!isUpdate") Adicionar Usuário
+  h4(ng-if="isUpdate") Editar Usuário
+
+.modal-body 
+  form(name="form", novalidate, valdr-type="User",autocomplete="off")
+    .container-fluid    
+      .row
+        .col-md-6
+          .form-group(valdr-form-group)
+            label Nome *
+            input.form-control(type="text", id="first_name", name="first_name", ng-model="user.first_name")
+
+        .col-md-6
+          .form-group(valdr-form-group)
+            label Sobrenome *
+            input.form-control(type="text", id="last_name", name="last_name", ng-model="user.last_name")
+
+      .row
+        .col-md-6
+          .form-group(valdr-form-group)
+            label Email *
+            input.form-control(type="email", id="email", name="email", ng-model="user.email")
+
+        .col-md-6
+          .form-group(valdr-form-group)
+            label Senha *
+            input.form-control(type="password", id="password", name="password", ng-model="user.password")
+      .row
+        .col-md-6
+          .form-group
+            label Administrador
+            input(type="checkbox", id="isAdmin", name="isAdmin", ng-model="user.isAdmin")
+
+
+.modal-footer
+  button.btn.btn-default(ng-click="cancel()") Cancelar
+  button.btn.btn-primary(ng-click="confirm(form)") Adicionar 

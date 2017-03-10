@@ -8,18 +8,32 @@ body
             span.menu-icon.glyphicon.glyphicon-transfer
         li.sidebar-title
           span Navegação
+
+        li.sidebar-list
+          a(ui-sref='base.users')
+            | Usuários
+            span.menu-icon.fa.fa-users
+
         li.sidebar-list
           a(ui-sref='base.bikes')
             | Bicicletas 
             span.menu-icon.fa.fa-bicycle
+
+        li.sidebar-list
+          a(ui-sref='base.locations')
+            | Pontos de Aluguel 
+            span.menu-icon.fa.fa-map-marker
+        
         li.sidebar-list
           a(ui-sref='base.dashboard')
             | Dashboard 
             span.menu-icon.fa.fa-tachometer
+
         li.sidebar-list
-          a(ui-sref='base.tables')
+          a(ui-sref='login')
             | Tables 
             span.menu-icon.fa.fa-table
+
       .sidebar-footer
         
 

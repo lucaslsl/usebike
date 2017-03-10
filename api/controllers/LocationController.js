@@ -5,7 +5,7 @@ var wrap = reqlib('api/util/generatorFnToMiddlewareFnWrapper');
 
 module.exports = {
   count: wrap(function* (req, res) {
-    let total = yield Location.count();
+    let total = yield Location.count({isActive: true});
     res.status(200).json({total: total});
   }),
 }

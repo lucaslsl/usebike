@@ -1,0 +1,44 @@
+.row
+  .col-md-12
+    rd-widget
+      rd-widget-header(icon="fa-tasks",title="Lista de Usuários")
+        button.btn.btn-success.pull-right(ng-click="create()") Adicionar &nbsp;&nbsp;&nbsp;
+          i.fa.fa-plus
+      rd-widget-body(classes="{{!loadingusers && users.length>0 ? 'no-padding' : ''}}")
+        rd-loading(ng-if="loadingusers")
+        uib-alert(type="info", ng-if="!loadingusers && users.length==0")
+          p.text-center Esta seção não possui items cadastrados.          
+        .table-responsive(ng-if="!loadingusers && users.length>0")
+          table.table.table-bordered.table-striped
+            tbody
+              tr
+                th.text-center.vertical-align-middle Nome
+                th.text-center.vertical-align-middle Sobrenome
+                th.text-center.vertical-align-middle Email
+                th.text-center.vertical-align-middle Admin
+                th.text-center.vertical-align-middle Criado em
+                th.text-center.vertical-align-middle Atualizado em
+                th
+
+              tr(ng-repeat="user in users")
+                td.text-center.vertical-align-middle(style="width: 14%") {{user.first_name}}
+                td.text-center.vertical-align-middle(style="width: 22%") {{user.last_name}}
+                td.text-center.vertical-align-middle(style="width: 21%") {{user.email}}
+                td.text-center.vertical-align-middle(style="width: 7%")
+                  i.fa.fa-black-tie(ng-if="user.isAdmin") 
+                td.text-center.vertical-align-middle(style="width: 12%")
+                  span(ng-model="user.createdAt", br-date-mask)
+                td.text-center.vertical-align-middle(style="width: 12%")
+                  span(ng-model="user.updatedAt", br-date-mask)
+                td.text-center.vertical-align-middle(style="width: 12%")
+                  .btn-group
+                    button.btn.btn-primary(ng-click="edit(user)")
+                     i.fa.fa-edit.fa-lg
+                    | &nbsp;
+                  .btn-group
+                    button.btn.btn-danger(ng-click="delete(user)")
+                     i.fa.fa-remove.fa-lg
+
+      rd-widget-footer
+        uib-pagination.pagination-sm.pull-right(total-items="pagination.totalCount", ng-model="pagination.currentPage",ng-change="pageChanged()", first-text="Primeira", last-text="Última", next-text="Proxima", previous-text="Anterior", max-size="pagination.maxSize", items-per-page="pagination.perPage")
+        .clearfix

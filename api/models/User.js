@@ -45,6 +45,16 @@ module.exports = {
       cb();
     });
     
+  },
+
+  beforeUpdate: function (values, cb) {
+
+    bcrypt.hash(values.password, null, null, function(err, hash){
+      if(err) throw err;
+      values.password = hash;
+      cb();
+    });
+    
   }
 
 }

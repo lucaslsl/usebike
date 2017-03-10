@@ -13,11 +13,13 @@
     $scope.bike = {};
 
 
+
     if(bike!==undefined){
       $scope.isUpdate = true;
       $scope.bike = bike;
     }
 
+    $scope.loadingLocations = true;
     $scope.locations = [];
 
     $http({
@@ -43,11 +45,13 @@
           _.forEach(data,function(res){
             $scope.locations = $scope.locations.concat(res.data);
           });
-          // if($scope.isUpdate){
-          //   $scope.bike.currentLocationObj =  _.find($scope.locations,function(location){
-          //     return location.id === bike.currentLocation;
-          //   });
+
+          $scope.loadingLocations = false;
+
+          // if(!$scope.isUpdate && $scope.locations.length>0){
+          //   $scope.bike.currentLocation = $scope.locations[0].id;
           // }
+
       });
       
     });

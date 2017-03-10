@@ -1,0 +1,48 @@
+.row
+  .col-md-12
+    rd-widget
+      rd-widget-header(icon="fa-tasks",title="Lista de Pontos de Alguel")
+        button.btn.btn-success.pull-right(ng-click="create()") Adicionar &nbsp;&nbsp;&nbsp;
+          i.fa.fa-plus
+      rd-widget-body(classes="{{!loadingLocations && locations.length>0 ? 'no-padding' : ''}}")
+        rd-loading(ng-if="loadingLocations")
+        uib-alert(type="info", ng-if="!loadingLocations && locations.length==0")
+          p.text-center Esta seção não possui items cadastrados.          
+        .table-responsive(ng-if="!loadingLocations && locations.length>0")
+          table.table.table-bordered.table-striped
+            tbody
+              tr
+                th.text-center.vertical-align-middle Nome
+                th.text-center.vertical-align-middle Descrição
+                th.text-center.vertical-align-middle Bicicletas Disponíveis
+                th.text-center.vertical-align-middle Latitude
+                th.text-center.vertical-align-middle Longitude
+                th.text-center.vertical-align-middle Criado em
+                th.text-center.vertical-align-middle Atualizado em
+                th
+
+              tr(ng-repeat="location in locations")
+                td.text-center.vertical-align-middle(style="width: 15%") {{location.name}}
+                td.text-center.vertical-align-middle(style="width: 23%") {{location.description}}
+                td.text-center.vertical-align-middle(style="width: 6%")
+                  span(ng-if="location.bikes.length>3") {{location.bikes.length}}
+                  span.text-warning(ng-if="location.bikes.length>0 && location.bikes.length<3") {{location.bikes.length}}
+                  span.text-danger(ng-if="location.bikes.length===0") {{location.bikes.length}}
+                td.text-center.vertical-align-middle(style="width: 10%") {{location.latitude}}
+                td.text-center.vertical-align-middle(style="width: 10%") {{location.longitude}}
+                td.text-center.vertical-align-middle(style="width: 12%")
+                  span(ng-model="location.createdAt", br-date-mask)
+                td.text-center.vertical-align-middle(style="width: 12%")
+                  span(ng-model="location.updatedAt", br-date-mask)
+                td.text-center.vertical-align-middle(style="width: 12%")
+                  .btn-group
+                    button.btn.btn-primary(ng-click="edit(location)")
+                     i.fa.fa-edit.fa-lg
+                    | &nbsp;
+                  .btn-group
+                    button.btn.btn-danger(ng-click="delete(location)")
+                     i.fa.fa-remove.fa-lg
+
+      rd-widget-footer
+        uib-pagination.pagination-sm.pull-right(total-items="pagination.totalCount", ng-model="pagination.currentPage",ng-change="pageChanged()", first-text="Primeira", last-text="Última", next-text="Proxima", previous-text="Anterior", max-size="pagination.maxSize", items-per-page="pagination.perPage")
+        .clearfix

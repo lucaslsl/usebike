@@ -41,8 +41,26 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $state, $breadcrumb
     return $breadcrumb.getLastStep().ncyBreadcrumbLabel;
   }
 
-
-  $scope.user = $rootScope.user;
+  if($rootScope.user === undefined || $rootScope.user.id === undefined){
+    $http({
+      method: 'GET',
+      data: '',
+      url:'/api/me'
+    })
+    .then(function(response){
+      if(response.data.isAdmin){
+        $rootScope.user = response.data;
+        $scope.user = $rootScope.user;
+      }else{
+        $state.go('login');
+      }
+    })
+    .catch(function(response){
+      $state.go('login');
+    });
+  }else{
+    $scope.user = $rootScope.user;
+  }
 
   $scope.logout = function(){
     $http({

@@ -1,0 +1,33 @@
+.modal-header
+  h4(ng-if="!isUpdate") Adicionar Ponto de Alguel
+  h4(ng-if="isUpdate") Editar Ponto de Alguel
+
+.modal-body 
+  form(name="form", novalidate, valdr-type="Location",autocomplete="off")
+    .container-fluid    
+      .row
+        .col-md-12
+          .form-group(valdr-form-group)
+            label Nome *
+            input.form-control(type="text", id="name", name="name", ng-model="location.name")
+
+      .row
+        .col-md-12
+          .form-group(valdr-form-group)
+            label Descrição *
+            textarea.form-control(type="text", id="description", name="description", ng-model="location.description")
+      .row
+        .col-md-6
+          .form-group(valdr-form-group)
+            label Latitude *
+            input.form-control(type="number", id="latitude", name="latitude", ng-model="location.latitude")
+
+        .col-md-6
+          .form-group(valdr-form-group)
+            label Longitude *
+            input.form-control(type="number", id="longitude", name="longitude", ng-model="location.longitude")
+
+
+.modal-footer
+  button.btn.btn-default(ng-click="cancel()") Cancelar
+  button.btn.btn-primary(ng-click="confirm(form)") Adicionar 

@@ -18,7 +18,8 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
             templateUrl: 'templates/login.html',
             controller: 'LoginCtrl'
           }
-        }
+        },
+        authenticationRequired: false
       })
       .state('base', {
         url: '/',
@@ -30,7 +31,8 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
         },
         ncyBreadcrumb: {
           label: 'Início'
-        }
+        },
+        authenticationRequired: true
       })
       .state('base.bikes', {
         url: 'bikes',
@@ -42,7 +44,34 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
         },
         ncyBreadcrumb: {
           label: 'Bicicletas'
-        }
+        },
+        authenticationRequired: true
+      })
+      .state('base.locations', {
+        url: 'locations',
+        views: {
+          'content': {
+            templateUrl: 'templates/locations/list.html',
+            controller: 'LocationListCtrl'
+          }
+        },
+        ncyBreadcrumb: {
+          label: 'Pontos de Aluguel'
+        },
+        authenticationRequired: true
+      })
+      .state('base.users', {
+        url: 'users',
+        views: {
+          'content': {
+            templateUrl: 'templates/users/list.html',
+            controller: 'UserListCtrl'
+          }
+        },
+        ncyBreadcrumb: {
+          label: 'Usuários'
+        },
+        authenticationRequired: true
       })
       .state('base.tables', {
         url: 'tables',
@@ -58,7 +87,8 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
           'content': {
             templateUrl: 'templates/dashboard.html'
           }
-        }
+        },
+        authenticationRequired: true
       });
 
     $breadcrumbProvider.setOptions({
@@ -91,6 +121,73 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
               message: ' Ponto não selecionado'
             }
           },
+        },
+        Location: {
+          name: {
+            size: {
+              min: 6,
+              max: 200,
+              message: 'Nome deve conter entre 2 e 200 caracteres.'
+            },
+            required: {
+              message: 'Nome é obrigatório'
+            }
+          },
+          description: {
+            size: {
+              min: 6,
+              max: 200,
+              message: 'Nome deve conter entre 2 e 200 caracteres.'
+            },
+            required: {
+              message: 'Nome é obrigatório'
+            }
+          },
+          latitude: {
+            required: {
+              message: 'Latitude é obrigatório'
+            }
+          },
+          longitude: {
+            required: {
+              message: 'Longitude é obrigatório'
+            }
+          }
+        },
+        User: {
+          first_name: {
+            size: {
+              min: 2,
+              max: 200,
+              message: 'Nome deve conter entre 2 e 200 caracteres.'
+            },
+            required: {
+              message: 'Nome é obrigatório'
+            }
+          },
+          last_name: {
+            size: {
+              min: 2,
+              max: 200,
+              message: 'Sobrenome deve conter entre 2 e 200 caracteres.'
+            },
+            required: {
+              message: 'Sobrenome é obrigatório'
+            }
+          },
+          email: {
+            required: {
+              message: 'Email é obrigatório'
+            },
+            email: {
+              message: 'Dever ser um email válido'
+            }
+          },
+          password: {
+            required: {
+              message: 'Senha é obrigatório'
+            }
+          }
         }
     });
 
@@ -104,23 +201,29 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
     // $http.defaults.headers.post = {'Content-Type': 'application/json'};
 
     $rootScope.$on('$stateChangeStart', function(event, next, current, toState, toParams, fromState, fromParams){
-      if($rootScope.user===undefined || $rootScope.user.id=== undefined){
-        $http({
-          method: 'GET',
-          data: '',
-          url:'/api/me'
-        })
-        .then(function(response){
-          if(response.data.isAdmin){
-            $rootScope.user = response.data;
-          }else{
+
+      if(toState.authenticationRequired){
+        if($rootScope.user===undefined || $rootScope.user.id=== undefined){
+          $http({
+            method: 'GET',
+            data: '',
+            url:'/api/me'
+          })
+          .then(function(response){
+            if(response.data.isAdmin){
+              $rootScope.user = response.data;
+            }else{
+              $state.go('login');
+            }
+          })
+          .catch(function(response){
             $state.go('login');
-          }
-        })
-        .catch(function(response){
-          $state.go('login');
-        });
+          });
+        }
+        
       }
+
+
     });
 
 }]);

@@ -56,6 +56,10 @@ module.exports.routes = {
 
   'get /api/locations/count': 'LocationController.count',
   'get /api/bikes/count': 'BikeController.count',
+  'get /api/users/count': 'UserController.count',
+  'get /api/transactions/count': 'TransactionController.count',
+  'get /api/pickups/count': 'PickupController.count',
+  'get /api/dropoffs/count': 'DropoffController.count',
 
 
   
