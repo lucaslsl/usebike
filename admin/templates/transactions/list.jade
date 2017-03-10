@@ -1,0 +1,59 @@
+.row
+  .col-md-12
+    rd-widget
+      rd-widget-header(icon="fa-tasks",title="Lista de Transações")
+        button.btn.btn-success.pull-right(ng-click="create()") Adicionar &nbsp;&nbsp;&nbsp;
+          i.fa.fa-plus
+      rd-widget-body(classes="{{!loadingTransactions && transactions.length>0 ? 'no-padding' : ''}}")
+        rd-loading(ng-if="loadingTransactions")
+        uib-alert(type="info", ng-if="!loadingTransactions && transactions.length==0")
+          p.text-center Esta seção não possui items cadastrados.          
+        .table-responsive(ng-if="!loadingTransactions && transactions.length>0")
+          table.table.table-bordered.table-striped
+            tbody
+              tr
+                th.text-center.vertical-align-middle ID Conta
+                th.text-center.vertical-align-middle ID Aluguel
+                th.text-center.vertical-align-middle Tipo
+                th.text-center.vertical-align-middle Valor
+                th.text-center.vertical-align-middle Criado em
+                //- th
+
+              tr(ng-repeat="transaction in transactions")
+                td.text-center.vertical-align-middle(style="width: 15%") {{transaction.account.id}}
+                td.text-center.vertical-align-middle(style="width: 15%") {{transaction.pickup.id}}
+                td.text-center.vertical-align-middle(style="width: 35%")
+                  span.label.label-success(ng-if="transaction.type==='rental-charge' || transaction.type==='rental-refund'")
+                    span Aluguel&nbsp;
+                    i.fa.fa-bicycle
+
+                  span.label.label-info(ng-if="transaction.type==='insurance-charge' || transaction.type==='insurance-refund'") 
+                    span &nbsp;Seguro&nbsp;&nbsp;
+                    i.fa.fa-life-buoy
+
+                  span.label.label-warning(ng-if="transaction.type==='latefee-charge' || transaction.type==='latefee-refund'") 
+                    span &nbsp;&nbsp;Atraso&nbsp;&nbsp;
+                    i.fa.fa-clock-o &nbsp;
+
+                td.text-center.vertical-align-middle(style="width: 23%") 
+                  span
+                    i.fa.fa-minus-circle.text-warning(ng-if="transaction.type==='rental-charge' || transaction.type==='latefee-charge' || transaction.type==='insurance-charge'")
+                    i.fa.fa-plus-circle.text-success(ng-if="transaction.type==='rental-refund' || transaction.type==='latefee-refund' || transaction.type==='insurance-refund'")
+                    span &nbsp;{{ transaction.amount | currency:"R$ ": 2 }}&nbsp;
+                    //- span.text-warning(ng-if="transaction.type==='rental-charge' || transaction.type==='latefee-charge' || transaction.type==='insurance-charge'") (Cobrança)
+                    //- span.text-success(ng-if="transaction.type==='rental-refund' || transaction.type==='latefee-refund' || transaction.type==='insurance-refund'") (Estorno)
+
+                td.text-center.vertical-align-middle(style="width: 12%")
+                  span(ng-model="transaction.createdAt", br-date-mask)
+                //- td.text-center.vertical-align-middle(style="width: 12%")
+                  .btn-group
+                    button.btn.btn-primary(ng-click="edit(transaction)")
+                     i.fa.fa-edit.fa-lg
+                    | &nbsp;
+                  .btn-group
+                    button.btn.btn-danger(ng-click="delete(transaction)")
+                     i.fa.fa-remove.fa-lg
+
+      rd-widget-footer
+        uib-pagination.pagination-sm.pull-right(total-items="pagination.totalCount", ng-model="pagination.currentPage",ng-change="pageChanged()", first-text="Primeira", last-text="Última", next-text="Proxima", previous-text="Anterior", max-size="pagination.maxSize", items-per-page="pagination.perPage")
+        .clearfix

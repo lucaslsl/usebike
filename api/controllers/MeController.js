@@ -165,6 +165,13 @@ module.exports = {
       });
     }
 
+    yield Transaction.create({
+      account: acc.id,
+      pickup: pickup.id,
+      type: 'insurance-refund',
+      amount: 100
+    });
+
     return res.status(201).json(dropoff);
 
   }),

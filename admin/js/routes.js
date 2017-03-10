@@ -34,6 +34,15 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
         },
         authenticationRequired: true
       })
+      .state('base.dashboard', {
+        url: 'dashboard',
+        views: {
+          'content': {
+            templateUrl: 'templates/dashboard.html'
+          }
+        },
+        authenticationRequired: true
+      })
       .state('base.bikes', {
         url: 'bikes',
         views: {
@@ -73,20 +82,16 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
         },
         authenticationRequired: true
       })
-      .state('base.tables', {
-        url: 'tables',
+      .state('base.transactions', {
+        url: 'transactions',
         views: {
           'content': {
-            templateUrl: 'templates/tables.html'
+            templateUrl: 'templates/transactions/list.html',
+            controller: 'TransactionListCtrl'
           }
-        }
-      })
-      .state('base.dashboard', {
-        url: 'dashboard',
-        views: {
-          'content': {
-            templateUrl: 'templates/dashboard.html'
-          }
+        },
+        ncyBreadcrumb: {
+          label: 'Transações'
         },
         authenticationRequired: true
       });
@@ -188,7 +193,37 @@ angular.module('UseBike').config(['$stateProvider', '$urlRouterProvider', '$brea
               message: 'Senha é obrigatório'
             }
           }
-        }
+        },
+        Transaction: {
+          account: {
+            undefinedObjectValidator: {
+              foo: 'bar',
+              message: ' Conta não selecionada'
+            },
+            required: {
+              message: ' Conta é obrigatória'
+            }
+          },
+          pickup: {
+            undefinedObjectValidator: {
+              foo: 'bar',
+              message: ' Aluguel não selecionado'
+            },
+            required: {
+              message: ' Aluguel é obrigatório'
+            }
+          },
+          type: {
+            required: {
+              message: 'Tipo é obrigatório'
+            }
+          },
+          amount: {
+            required: {
+              message: 'Valor é obrigatório'
+            }
+          },
+        },
     });
 
   }

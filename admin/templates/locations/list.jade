@@ -25,9 +25,9 @@
                 td.text-center.vertical-align-middle(style="width: 15%") {{location.name}}
                 td.text-center.vertical-align-middle(style="width: 23%") {{location.description}}
                 td.text-center.vertical-align-middle(style="width: 6%")
-                  span(ng-if="location.bikes.length>3") {{location.bikes.length}}
-                  span.text-warning(ng-if="location.bikes.length>0 && location.bikes.length<3") {{location.bikes.length}}
-                  span.text-danger(ng-if="location.bikes.length===0") {{location.bikes.length}}
+                  span.label.label-success.label-as-badge(ng-if="location.bikes.length>3") {{location.bikes.length}}
+                  span.label.label-warning.label-as-badge(ng-if="location.bikes.length>0 && location.bikes.length<3") {{location.bikes.length}}
+                  span.label.label-danger.label-as-badge(ng-if="location.bikes.length===0") {{location.bikes.length}}
                 td.text-center.vertical-align-middle(style="width: 10%") {{location.latitude}}
                 td.text-center.vertical-align-middle(style="width: 10%") {{location.longitude}}
                 td.text-center.vertical-align-middle(style="width: 12%")

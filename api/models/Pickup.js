@@ -33,12 +33,20 @@ module.exports = {
 
   afterCreate: function afterCreate(newPickup, cb) {
     Account.findOne({ user: newPickup.user }).then(acc=>{
-      Transaction.create({
-        account: acc.id,
-        pickup: newPickup.id,
-        amount: newPickup.duration * 0.25,
-        type: 'rental-charge'
-      }).then(()=>{
+      Transaction.createEach([
+        {
+          account: acc.id,
+          pickup: newPickup.id,
+          amount: newPickup.duration * 0.25,
+          type: 'rental-charge'
+        },
+        {
+          account: acc.id,
+          pickup: newPickup.id,
+          amount: 100,
+          type: 'insurance-charge'
+        }
+      ]).then(()=>{
         cb();
       });
     });

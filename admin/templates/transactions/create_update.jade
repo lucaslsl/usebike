@@ -1,0 +1,32 @@
+.modal-header
+  h4(ng-if="!isUpdate") Adicionar Transação
+  h4(ng-if="isUpdate") Editar Transação
+
+.modal-body 
+  form(name="form", novalidate, valdr-type="Transaction",autocomplete="off")
+    .container-fluid    
+      .row
+        .col-md-6
+          .form-group(valdr-form-group)
+            label ID da Conta *
+            input.form-control(type="text", id="account", name="account", ng-model="transaction.account")
+
+        .col-md-6
+          .form-group(valdr-form-group)
+            label ID do Aluguel *
+            input.form-control(type="text", id="pickup", name="pickup", ng-model="transaction.pickup")
+      .row
+        .col-md-6
+          .form-group(valdr-form-group)
+            label Tipo *
+            select.form-control(id="type", name="type", ng-model="transaction.type", ng-options="item.value as item.name for item in transactionTypes")
+
+        .col-md-6
+          .form-group(valdr-form-group)
+            label Valor *
+            input.form-control(type="number", id="amount", name="amount", ng-model="transaction.amount")
+
+
+.modal-footer
+  button.btn.btn-default(ng-click="cancel()") Cancelar
+  button.btn.btn-primary(ng-click="confirm(form)") Adicionar 

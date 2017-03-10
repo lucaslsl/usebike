@@ -10,6 +10,11 @@ body
           span Navegação
 
         li.sidebar-list
+          a(ui-sref='base.dashboard')
+            | Estatísticas
+            span.menu-icon.fa.fa-bar-chart
+
+        li.sidebar-list
           a(ui-sref='base.users')
             | Usuários
             span.menu-icon.fa.fa-users
@@ -23,16 +28,14 @@ body
           a(ui-sref='base.locations')
             | Pontos de Aluguel 
             span.menu-icon.fa.fa-map-marker
-        
-        li.sidebar-list
-          a(ui-sref='base.dashboard')
-            | Dashboard 
-            span.menu-icon.fa.fa-tachometer
 
         li.sidebar-list
-          a(ui-sref='login')
-            | Tables 
-            span.menu-icon.fa.fa-table
+          a(ui-sref='base.transactions')
+            | Transações
+            span.menu-icon.fa.fa-credit-card
+        
+        
+
 
       .sidebar-footer
         
